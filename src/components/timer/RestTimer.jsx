@@ -6,12 +6,6 @@ import { X, SkipForward } from 'lucide-react'
 import { useTimerStore } from '@/store/useTimerStore'
 import styles from './RestTimer.module.css'
 
-/**
- * 세트 완료 후 카드 하단에 슬라이드로 나타나는 휴식 타이머
- * Props:
- *   cardId  — 이 타이머가 속한 운동 카드 ID
- *   seconds — 타이머 초 (기본 60)
- */
 export function RestTimer ({ cardId, seconds = 60 }) {
   const { activeCardId, remainingTime, totalTime, isTimerRunning, stopTimer, skipTimer } = useTimerStore()
 
@@ -19,7 +13,6 @@ export function RestTimer ({ cardId, seconds = 60 }) {
   const isDone = isActive && remainingTime === 0 && !isTimerRunning
   const pct = totalTime > 0 ? (remainingTime / totalTime) * 100 : 0
 
-  // 0초 도달 시 진동 느낌 — 브라우저 Vibration API
   useEffect(() => {
     if (isDone && typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate([100, 50, 100])
@@ -38,7 +31,6 @@ export function RestTimer ({ cardId, seconds = 60 }) {
           className={styles.timerWrap}
         >
           <div className={styles.timerInner}>
-            {/* 상단 행: 카운트다운 숫자 + 닫기 */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
                 <motion.span
@@ -50,27 +42,26 @@ export function RestTimer ({ cardId, seconds = 60 }) {
                 >
                   {remainingTime}
                 </motion.span>
-                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'rgba(167,139,250,0.5)', marginBottom: 6 }}>
-                  초
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'rgba(223,255,0,0.4)', marginBottom: 6 }}>
+                  sec
                 </span>
               </div>
 
               <button
                 onClick={stopTimer}
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '50%',
+                  background: 'transparent',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius)',
                   width: 28, height: 28,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: 'rgba(255,255,255,0.4)'
+                  cursor: 'pointer', color: 'var(--text-muted)'
                 }}
               >
-                <X size={13} />
+                <X size={12} />
               </button>
             </div>
 
-            {/* 프로그레스 바 */}
             <div className={styles.progressTrack}>
               <motion.div
                 className={styles.progressFill}
@@ -79,7 +70,6 @@ export function RestTimer ({ cardId, seconds = 60 }) {
               />
             </div>
 
-            {/* 안내 문구 */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <AnimatePresence mode="wait">
                 {isDone ? (
@@ -90,7 +80,7 @@ export function RestTimer ({ cardId, seconds = 60 }) {
                     exit={{ opacity: 0 }}
                     className={styles.messageDone}
                   >
-                    🚀 다음 세트 시작!
+                    Next set — Go.
                   </motion.p>
                 ) : (
                   <motion.p
@@ -100,15 +90,15 @@ export function RestTimer ({ cardId, seconds = 60 }) {
                     exit={{ opacity: 0 }}
                     className={styles.message}
                   >
-                    💨 다음 세트 준비! 호흡하세요.
+                    Rest. Breathe.
                   </motion.p>
                 )}
               </AnimatePresence>
 
               {!isDone && (
                 <button onClick={skipTimer} className={styles.skipBtn}>
-                  <SkipForward size={11} style={{ display: 'inline', marginRight: 3, verticalAlign: 'middle' }} />
-                  건너뛰기
+                  <SkipForward size={10} style={{ display: 'inline', marginRight: 3, verticalAlign: 'middle' }} />
+                  Skip
                 </button>
               )}
             </div>

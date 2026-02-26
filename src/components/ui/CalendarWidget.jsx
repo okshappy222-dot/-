@@ -86,10 +86,10 @@ export function CalendarWidget () {
           const hasMission = !!(missionDone?.[key])
 
           const getBg = () => {
-            if (isSelected) return 'var(--accent)'
-            if (isFullDone) return 'rgba(167,139,250,0.2)'
-            if (hasLog && rate > 0.5) return 'rgba(167,139,250,0.1)'
-            if (hasLog) return 'rgba(167,139,250,0.05)'
+            if (isSelected) return 'var(--volt)'
+            if (isFullDone) return 'rgba(223,255,0,0.15)'
+            if (hasLog && rate > 0.5) return 'rgba(223,255,0,0.08)'
+            if (hasLog) return 'rgba(223,255,0,0.04)'
             return 'transparent'
           }
 
@@ -102,22 +102,22 @@ export function CalendarWidget () {
               className="relative aspect-square flex flex-col items-center justify-center rounded-lg text-sm font-medium cursor-pointer transition-all duration-200"
               style={{
                 background: getBg(),
-                color: isSelected ? '#fff' : isToday ? 'var(--accent)' : 'var(--text-primary)',
+                color: isSelected ? '#000' : isToday ? 'var(--volt)' : 'var(--text-primary)',
                 border: isToday && !isSelected
-                  ? '1.5px solid var(--border-accent)'
+                  ? '1.5px solid var(--volt-border)'
                   : '1.5px solid transparent',
                 outline: 'none'
               }}
             >
               {isFullDone && !isSelected && (
                 <div className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full flex items-center justify-center"
-                  style={{ background: 'var(--accent)' }}>
-                  <Check size={10} color="#fff" strokeWidth={3} />
+                  style={{ background: 'var(--volt)' }}>
+                  <Check size={10} color="#000" strokeWidth={3} />
                 </div>
               )}
 
               {hasMission && !isSelected && (
-                <div className="absolute top-0.5 left-0.5" style={{ fontSize: 11, lineHeight: 1 }}>
+                <div className="absolute top-0.5 left-0.5" style={{ fontSize: 11, lineHeight: 1, color: 'var(--volt)' }}>
                   ✦
                 </div>
               )}
@@ -128,7 +128,7 @@ export function CalendarWidget () {
                 <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5">
                   {hasLog && !isFullDone && (
                     <div className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: rate > 0 ? 'var(--accent)' : 'rgba(167,139,250,0.3)' }} />
+                      style={{ background: rate > 0 ? 'var(--volt)' : 'rgba(223,255,0,0.3)' }} />
                   )}
                   {hasDiary && (
                     <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--info)' }} />
@@ -142,8 +142,8 @@ export function CalendarWidget () {
 
       <div className="flex flex-wrap gap-4 pt-1">
         {[
-          { color: 'var(--accent)', label: '완전 완료' },
-          { color: 'rgba(167,139,250,0.4)', label: '운동 기록' },
+          { color: 'var(--volt)', label: '완전 완료' },
+          { color: 'rgba(223,255,0,0.4)', label: '운동 기록' },
           { color: 'var(--info)', label: '일지 작성' }
         ].map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
@@ -169,7 +169,7 @@ export function CalendarWidget () {
                 <button
                   onClick={() => setDiaryDate(selectedDate)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer"
-                  style={{ background: 'var(--info-soft)', border: '1px solid rgba(96,165,250,0.25)', color: 'var(--info)' }}
+                  style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.25)', color: 'var(--info)' }}
                 >
                   <PenLine size={11} />
                   {diaries?.[selectedDate] ? '일지 수정' : '일지 작성'}
@@ -178,7 +178,7 @@ export function CalendarWidget () {
 
               {diaries?.[selectedDate] && (
                 <div className="mb-4 p-3 rounded-xl flex items-start gap-2"
-                  style={{ background: 'var(--info-soft)', border: '1px solid rgba(96,165,250,0.2)' }}>
+                  style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)' }}>
                   <BookOpen size={12} style={{ color: 'var(--info)', flexShrink: 0, marginTop: 1 }} />
                   <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                     {(() => {
@@ -215,12 +215,12 @@ export function CalendarWidget () {
                       </div>
                       <div className="flex items-center gap-2">
                         {doneCnt === total && total > 0 && (
-                          <Flame size={14} style={{ color: 'var(--accent)' }} />
+                          <Flame size={14} style={{ color: 'var(--volt)' }} />
                         )}
                         <button
                           onClick={() => removeLog(selectedDate, log.id)}
                           className="p-1.5 rounded-lg cursor-pointer"
-                          style={{ background: 'var(--danger-soft)', border: 'none', color: 'var(--danger)' }}
+                          style={{ background: 'rgba(239,68,68,0.08)', border: 'none', color: 'var(--danger)' }}
                         >
                           <Trash2 size={12} />
                         </button>
@@ -230,7 +230,7 @@ export function CalendarWidget () {
                     <div className="h-1.5 rounded-full mb-3" style={{ background: 'var(--bg-2)' }}>
                       <motion.div
                         className="h-full rounded-full"
-                        style={{ background: 'var(--accent)' }}
+                        style={{ background: 'var(--volt)' }}
                         initial={{ width: 0 }}
                         animate={{ width: `${total === 0 ? 0 : (doneCnt / total) * 100}%` }}
                         transition={{ duration: 0.6 }}
@@ -249,11 +249,11 @@ export function CalendarWidget () {
                             className="flex-shrink-0 w-4.5 h-4.5 rounded-md flex items-center justify-center transition-all"
                             style={{
                               width: 18, height: 18,
-                              background: ex.done ? 'var(--accent)' : 'var(--bg-2)',
+                              background: ex.done ? 'var(--volt)' : 'var(--bg-2)',
                               border: ex.done ? 'none' : '1.5px solid var(--border)'
                             }}
                           >
-                            {ex.done && <Check size={10} color="#fff" strokeWidth={3} />}
+                            {ex.done && <Check size={10} color="#000" strokeWidth={3} />}
                           </div>
                           <span className="text-xs"
                             style={{

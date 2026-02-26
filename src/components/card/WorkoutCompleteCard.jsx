@@ -6,19 +6,10 @@ import { X, ImageDown } from 'lucide-react'
 import styles from './WorkoutCompleteCard.module.css'
 
 const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-const MONTHS   = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
-const PART_LABEL = {
-  upper: 'UPPER BODY',
-  lower: 'LOWER BODY',
-  full:  'FULL BODY'
-}
-
-const LEVEL_LABEL = {
-  beginner:     'BEGINNER',
-  intermediate: 'INTERMEDIATE',
-  advanced:     'ADVANCED'
-}
+const PART_LABEL = { upper: 'UPPER BODY', lower: 'LOWER BODY', full: 'FULL BODY' }
+const LEVEL_LABEL = { beginner: 'BEGINNER', intermediate: 'INTERMEDIATE', advanced: 'ADVANCED' }
 
 export function WorkoutCompleteCard ({ isOpen, onClose, selection, totalSets, totalExercises }) {
   const cardRef = useRef(null)
@@ -26,37 +17,30 @@ export function WorkoutCompleteCard ({ isOpen, onClose, selection, totalSets, to
   const [downloaded, setDownloaded] = useState(false)
 
   const today = new Date()
-  const dayName   = WEEKDAYS[today.getDay()]
-  const dateNum   = today.getDate()
+  const dayName = WEEKDAYS[today.getDay()]
+  const dateNum = today.getDate()
   const monthName = MONTHS[today.getMonth()]
-  const yearNum   = today.getFullYear()
+  const yearNum = today.getFullYear()
 
   const { time = 60, level = 'beginner', part = 'upper' } = selection ?? {}
 
   const handleDownload = useCallback(async () => {
     if (!cardRef.current || isDownloading) return
     setIsDownloading(true)
-
     try {
       const html2canvas = (await import('html2canvas')).default
       const canvas = await html2canvas(cardRef.current, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: '#09090b',
-        logging: false,
-        width: cardRef.current.offsetWidth,
-        height: cardRef.current.offsetHeight
+        scale: 3, useCORS: true, backgroundColor: '#000000', logging: false,
+        width: cardRef.current.offsetWidth, height: cardRef.current.offsetHeight,
       })
-
       const link = document.createElement('a')
       link.download = `3sec-routine-${today.toISOString().split('T')[0]}.png`
       link.href = canvas.toDataURL('image/png', 1.0)
       link.click()
-
       setDownloaded(true)
       setTimeout(() => setDownloaded(false), 3000)
     } catch (err) {
-      console.error('이미지 저장 실패:', err)
+      console.error('Image save failed:', err)
     } finally {
       setIsDownloading(false)
     }
@@ -75,9 +59,9 @@ export function WorkoutCompleteCard ({ isOpen, onClose, selection, totalSets, to
         >
           <motion.div
             className={styles.wrapper}
-            initial={{ opacity: 0, scale: 0.88, y: 30 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 16 }}
+            exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ type: 'spring', stiffness: 260, damping: 22 }}
           >
             <div ref={cardRef} className={styles.card}>
@@ -90,7 +74,7 @@ export function WorkoutCompleteCard ({ isOpen, onClose, selection, totalSets, to
                 <div className={styles.topRow}>
                   <div className={styles.brand}>
                     <div className={styles.brandDot} />
-                    <span className={styles.brandName}>3초 루틴</span>
+                    <span className={styles.brandName}>3SEC</span>
                     <span className={styles.brandSub}>Workout Complete</span>
                   </div>
                   <div className={styles.dateBlock}>
@@ -140,31 +124,22 @@ export function WorkoutCompleteCard ({ isOpen, onClose, selection, totalSets, to
             </div>
 
             <div className={styles.actions}>
-              <button
-                className={styles.downloadBtn}
-                onClick={handleDownload}
-                disabled={isDownloading}
-              >
+              <button className={styles.downloadBtn} onClick={handleDownload} disabled={isDownloading}>
                 {isDownloading ? (
                   <div className={styles.loadingSpinner} />
                 ) : downloaded ? (
-                  <>저장 완료!</>
+                  <>Saved</>
                 ) : (
-                  <>
-                    <ImageDown size={15} />
-                    이미지 저장
-                  </>
+                  <><ImageDown size={14} />Download</>
                 )}
               </button>
-
               <button className={styles.closeBtn} onClick={onClose}>
-                <X size={14} />
-                닫기
+                <X size={13} />Close
               </button>
             </div>
 
             <p className={styles.shareHint}>
-              이미지를 저장하고 인스타그램에 공유해보세요
+              Save and share on Instagram
             </p>
           </motion.div>
         </motion.div>

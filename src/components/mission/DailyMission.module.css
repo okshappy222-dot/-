@@ -1,11 +1,9 @@
-/* DailyMission — Refined Dark Violet */
-
 .section {
   position: relative;
-  border-radius: 20px;
-  padding: 24px 24px 20px;
-  background: var(--accent-soft);
-  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  padding: 28px 28px 24px;
+  background: var(--volt-soft);
+  border: 1px solid var(--volt-border);
   overflow: hidden;
 }
 
@@ -16,56 +14,59 @@
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(167,139,250,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(223, 255, 0, 0.04) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--accent);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--volt);
+  text-transform: uppercase;
   margin-bottom: 4px;
 }
 
 .title {
-  font-size: 1.2rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 900;
   font-family: var(--font-display);
   color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
   margin-bottom: 4px;
 }
 
 .missionCard {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.03);
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
-  margin-top: 14px;
+  margin-top: 16px;
   transition: all 0.3s ease;
 }
 
 .missionCardDone {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border-radius: 14px;
-  background: var(--accent-soft);
-  border: 1px solid var(--border-accent);
-  margin-top: 14px;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  background: var(--volt-soft);
+  border: 1px solid var(--volt-border);
+  margin-top: 16px;
   transition: all 0.3s ease;
 }
 
 .iconCircle {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  background: var(--accent-soft);
-  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,9 +78,9 @@
 .iconCircleDone {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  background: rgba(167,139,250,0.15);
-  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--volt-soft);
+  border: 1px solid var(--volt);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,37 +90,38 @@
 }
 
 .missionText {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
   flex: 1;
 }
 
 .missionTextDone {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--volt);
   flex: 1;
   text-decoration: line-through;
-  text-decoration-color: rgba(167, 139, 250, 0.4);
+  text-decoration-color: rgba(223, 255, 0, 0.3);
 }
 
 .completeBtn {
-  padding: 9px 18px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
-  color: #fff;
-  font-size: 0.8rem;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  background: var(--volt);
+  color: #000;
+  font-size: 0.75rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 0.15s ease;
 }
 
 .completeBtn:hover {
-  transform: scale(1.04);
-  box-shadow: 0 4px 16px rgba(167,139,250,0.3);
+  transform: scale(1.03);
 }
 
 .completeBtn:active {
@@ -131,17 +133,19 @@
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border-radius: 10px;
-  background: var(--accent-soft);
-  border: 1px solid var(--border-accent);
-  color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 600;
+  border-radius: var(--radius);
+  background: var(--volt-soft);
+  border: 1px solid var(--volt-border);
+  color: var(--volt);
+  font-size: 0.75rem;
+  font-weight: 700;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @keyframes confettiFall {
-  0%   { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
+  0% { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
   100% { transform: translateY(120vh) rotate(720deg) scale(0.3); opacity: 0; }
 }
 
@@ -156,8 +160,8 @@
 }
 
 @keyframes stampIn {
-  0%   { transform: scale(2) rotate(-15deg); opacity: 0; }
-  60%  { transform: scale(0.9) rotate(3deg); opacity: 1; }
+  0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+  60% { transform: scale(0.9) rotate(3deg); opacity: 1; }
   100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
@@ -166,11 +170,13 @@
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  border-radius: 99px;
-  background: var(--accent-soft);
-  border: 1.5px solid var(--accent);
-  color: var(--accent);
-  font-size: 0.75rem;
+  border-radius: var(--radius);
+  background: var(--volt-soft);
+  border: 1px solid var(--volt);
+  color: var(--volt);
+  font-size: 0.7rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   animation: stampIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }

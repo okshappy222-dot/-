@@ -27,27 +27,26 @@ function getExerciseImage (name) {
 }
 
 function ProgressRing ({ completed, total }) {
-  const radius = 48
+  const radius = 44
   const circumference = 2 * Math.PI * radius
   const progress = total === 0 ? 0 : completed / total
   const offset = circumference * (1 - progress)
   return (
-    <div className="relative flex items-center justify-center w-28 h-28">
-      <svg width="112" height="112" viewBox="0 0 112 112" className="absolute">
-        <circle cx="56" cy="56" r={radius} fill="none" stroke="var(--bg-3)" strokeWidth="7" />
+    <div className="relative flex items-center justify-center w-24 h-24">
+      <svg width="96" height="96" viewBox="0 0 96 96" className="absolute">
+        <circle cx="48" cy="48" r={radius} fill="none" stroke="var(--bg-3)" strokeWidth="5" />
         <motion.circle
-          cx="56" cy="56" r={radius}
-          fill="none" stroke="var(--accent)" strokeWidth="7" strokeLinecap="round"
+          cx="48" cy="48" r={radius}
+          fill="none" stroke="var(--volt)" strokeWidth="5" strokeLinecap="butt"
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
           transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-          style={{ transform: 'rotate(-90deg)', transformOrigin: '56px 56px' }}
+          style={{ transform: 'rotate(-90deg)', transformOrigin: '48px 48px' }}
         />
       </svg>
       <div className="text-center z-10">
-        <div className="text-2xl font-bold" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>{completed}/{total}</div>
-        <div className="text-xs" style={{ color: 'var(--text-muted)' }}>완료</div>
+        <div className="text-lg font-bold" style={{ color: 'var(--volt)', fontFamily: 'var(--font-display)' }}>{completed}/{total}</div>
       </div>
     </div>
   )
@@ -67,14 +66,15 @@ function WorkoutCard ({ exercise, index, isChecked, onToggle }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, ease: [0.4, 0, 0.2, 1] }}
-      className="rounded-2xl overflow-hidden transition-all duration-300"
+      transition={{ delay: index * 0.08, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+      className="overflow-hidden transition-all duration-300"
       style={{
-        background: isChecked ? 'var(--accent-soft)' : 'var(--bg-card)',
-        border: `1px solid ${isChecked ? 'var(--border-accent)' : 'var(--border)'}`,
-        opacity: isChecked ? 0.8 : 1,
+        background: isChecked ? 'var(--volt-soft)' : 'var(--bg-card)',
+        border: `1px solid ${isChecked ? 'var(--volt-border)' : 'var(--border)'}`,
+        borderRadius: 'var(--radius-md)',
+        opacity: isChecked ? 0.7 : 1,
       }}
     >
       <ExerciseGuideModal isOpen={guideOpen} onClose={() => setGuideOpen(false)} exerciseName={exercise.name} />
@@ -82,7 +82,7 @@ function WorkoutCard ({ exercise, index, isChecked, onToggle }) {
       {!imgError && (
         <div
           className="relative w-full overflow-hidden cursor-pointer"
-          style={{ height: imgExpanded ? '180px' : '100px', transition: 'height 0.4s cubic-bezier(0.4,0,0.2,1)' }}
+          style={{ height: imgExpanded ? '180px' : '90px', transition: 'height 0.4s cubic-bezier(0.4,0,0.2,1)' }}
           onClick={() => setImgExpanded((v) => !v)}
         >
           <img
@@ -93,37 +93,38 @@ function WorkoutCard ({ exercise, index, isChecked, onToggle }) {
             onError={() => setImgError(true)}
           />
           <div className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 100%)' }} />
+            style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.7) 100%)' }} />
           <div className="absolute bottom-2 right-3 flex items-center gap-1 text-xs"
-            style={{ color: 'rgba(255,255,255,0.55)' }}>
+            style={{ color: 'rgba(255,255,255,0.4)' }}>
             {imgExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-            <span>{imgExpanded ? '접기' : '크게'}</span>
           </div>
         </div>
       )}
 
-      <div className="p-4">
-        <div className="flex items-center gap-3 mb-3">
+      <div className="p-5">
+        <div className="flex items-center gap-3 mb-4">
           <motion.button
-            className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold cursor-pointer"
+            className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-xs font-bold cursor-pointer"
             style={{
-              background: isChecked ? 'var(--accent)' : 'var(--bg-3)',
-              color: isChecked ? '#fff' : 'var(--text-secondary)',
-              border: 'none'
+              background: isChecked ? 'var(--volt)' : 'transparent',
+              color: isChecked ? '#000' : 'var(--text-muted)',
+              border: isChecked ? 'none' : '1px solid var(--border)',
+              borderRadius: 'var(--radius)',
             }}
             onClick={handleToggle}
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.94 }}
           >
-            {isChecked ? <Check size={14} strokeWidth={3} /> : <span>{index + 1}</span>}
+            {isChecked ? <Check size={12} strokeWidth={3} /> : <span>{index + 1}</span>}
           </motion.button>
 
           <h3
             className="flex-1 font-bold text-sm leading-tight cursor-pointer"
             style={{
-              fontFamily: 'var(--font-display)',
-              color: isChecked ? 'var(--text-muted)' : 'var(--text-primary)',
-              textDecoration: isChecked ? 'line-through' : 'none'
+              fontFamily: 'var(--font-body)',
+              color: isChecked ? 'var(--text-muted)' : '#fff',
+              textDecoration: isChecked ? 'line-through' : 'none',
+              textDecorationColor: 'var(--text-muted)',
             }}
             onClick={handleToggle}
           >
@@ -133,31 +134,36 @@ function WorkoutCard ({ exercise, index, isChecked, onToggle }) {
           <motion.button
             whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}
             onClick={(e) => { e.stopPropagation(); setGuideOpen(true) }}
-            className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer"
-            style={{ background: 'var(--info-soft)', border: '1px solid rgba(96,165,250,0.25)', color: 'var(--info)' }}
+            className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium cursor-pointer uppercase tracking-wider"
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius)',
+              color: 'var(--text-muted)',
+            }}
           >
-            <HelpCircle size={11} />
-            <span>방법</span>
+            <HelpCircle size={10} />
+            Guide
           </motion.button>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-3 pl-11">
-          <span className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg"
-            style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
+        <div className="flex flex-wrap gap-2 mb-4 pl-10">
+          <span className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1"
+            style={{ background: 'var(--volt-soft)', color: 'var(--volt)', borderRadius: 'var(--radius)' }}>
             <Repeat size={10} />
             {exercise.sets}
           </span>
-          <span className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg"
-            style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-secondary)' }}>
+          <span className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1"
+            style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-secondary)', borderRadius: 'var(--radius)' }}>
             <Clock size={10} />
             휴식 {exercise.rest}
           </span>
         </div>
 
-        <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
-          <Lightbulb size={12} style={{ color: 'var(--warning)', flexShrink: 0, marginTop: 1 }} />
-          <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        <div className="flex items-start gap-2 px-3 py-3"
+          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
+          <Lightbulb size={11} style={{ color: 'var(--volt)', flexShrink: 0, marginTop: 1 }} />
+          <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
             {exercise.tip}
           </p>
         </div>
@@ -171,29 +177,28 @@ function WorkoutCard ({ exercise, index, isChecked, onToggle }) {
 function StickyPanel ({ selection, routine, checkedIds, isCopied, savedToday, allDone, onCopy, onShare, onSave, onReset, onShowCard }) {
   const { time, level, part } = selection
   const levelLabel = level === 'beginner' ? '초급자' : level === 'intermediate' ? '중급자' : '상급자'
-  const partLabel  = part  === 'upper'    ? '상체'   : part  === 'lower'        ? '하체'   : '전신'
+  const partLabel = part === 'upper' ? '상체' : part === 'lower' ? '하체' : '전신'
   const pct = routine.length > 0 ? Math.round((checkedIds.size / routine.length) * 100) : 0
 
   return (
-    <div className="flex flex-col gap-4 lg:sticky lg:top-24">
-      <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-        <p className="text-xs font-semibold tracking-wide mb-4" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>오늘의 루틴</p>
-        <div className="flex items-center gap-4 mb-4">
+    <div className="flex flex-col gap-5 lg:sticky lg:top-28">
+      <div className="p-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
+        <p className="text-xs font-bold tracking-[0.2em] uppercase mb-5" style={{ color: 'var(--volt)' }}>Today</p>
+        <div className="flex items-center gap-5 mb-5">
           <ProgressRing completed={checkedIds.size} total={routine.length} />
           <div>
-            <p className="text-xl font-bold mb-1" style={{ fontFamily: 'var(--font-display)' }}>{time}분</p>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{levelLabel}</p>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{partLabel} 운동</p>
+            <p className="text-xl font-black uppercase" style={{ fontFamily: 'var(--font-display)' }}>{time}min</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{levelLabel} · {partLabel}</p>
           </div>
         </div>
-        <div className="mb-1 flex items-center justify-between">
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>진행률</p>
-          <p className="text-xs font-bold" style={{ color: 'var(--accent)' }}>{pct}%</p>
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Progress</p>
+          <p className="text-xs font-bold" style={{ color: 'var(--volt)' }}>{pct}%</p>
         </div>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-3)' }}>
+        <div className="h-1 rounded-full overflow-hidden" style={{ background: 'var(--bg-3)' }}>
           <motion.div
-            className="h-full rounded-full"
-            style={{ background: 'var(--accent)' }}
+            className="h-full"
+            style={{ background: 'var(--volt)' }}
             animate={{ width: `${pct}%` }}
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           />
@@ -203,42 +208,45 @@ function StickyPanel ({ selection, routine, checkedIds, isCopied, savedToday, al
       <AnimatePresence>
         {allDone && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-            className="rounded-2xl p-5 text-center"
-            style={{ background: 'var(--success-soft)', border: '1px solid rgba(52,211,153,0.3)' }}
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+            className="p-5 text-center"
+            style={{ background: 'var(--volt-soft)', border: '1px solid var(--volt-border)', borderRadius: 'var(--radius-md)' }}
           >
-            <p className="font-bold text-sm mb-1" style={{ color: 'var(--success)' }}>오늘 루틴 완주!</p>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>오늘의 기록이 내일의 당신을 만듭니다.</p>
+            <p className="font-bold text-sm" style={{ color: 'var(--volt)' }}>ROUTINE COMPLETE</p>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>오늘의 기록이 내일의 당신을 만듭니다.</p>
           </motion.div>
         )}
       </AnimatePresence>
 
       <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
         onClick={onShowCard}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm cursor-pointer transition-all"
+        className="w-full flex items-center justify-center gap-2 py-4 font-bold text-xs cursor-pointer transition-all uppercase tracking-widest"
         style={{
-          background: allDone
-            ? 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%)'
-            : 'var(--accent-soft)',
-          color: allDone ? '#fff' : 'var(--accent)',
-          border: allDone ? 'none' : '1px solid var(--border-accent)',
+          background: allDone ? 'var(--volt)' : 'transparent',
+          color: allDone ? '#000' : 'var(--volt)',
+          border: allDone ? 'none' : '1px solid var(--volt-border)',
+          borderRadius: 'var(--radius)',
         }}
       >
-        오운완 인증 카드 만들기
+        오운완 카드 만들기
       </motion.button>
 
       <div className="grid grid-cols-3 gap-3">
         {[
-          { icon: Target, label: '총 운동', value: `${routine.length}개` },
-          { icon: Flame,  label: '완료',   value: `${checkedIds.size}개` },
-          { icon: Trophy, label: '달성률',  value: `${pct}%` }
+          { icon: Target, label: 'Total', value: `${routine.length}` },
+          { icon: Flame, label: 'Done', value: `${checkedIds.size}` },
+          { icon: Trophy, label: 'Rate', value: `${pct}%` }
         ].map(({ icon: Icon, label, value }) => (
-          <div key={label} className="rounded-xl p-3 text-center" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-            <Icon size={14} style={{ color: 'var(--accent)', margin: '0 auto 4px' }} />
-            <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{value}</p>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{label}</p>
+          <div
+            key={label}
+            className="p-4 text-center"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}
+          >
+            <Icon size={13} style={{ color: 'var(--volt)', margin: '0 auto 6px' }} />
+            <p className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>{value}</p>
+            <p className="text-xs mt-1 uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{label}</p>
           </div>
         ))}
       </div>
@@ -246,45 +254,47 @@ function StickyPanel ({ selection, routine, checkedIds, isCopied, savedToday, al
       <div className="flex flex-col gap-2">
         <button
           onClick={onSave}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold transition-all cursor-pointer uppercase tracking-wider"
           style={{
-            background: savedToday ? 'var(--accent-soft)' : 'var(--accent)',
-            border: `1px solid ${savedToday ? 'var(--border-accent)' : 'transparent'}`,
-            color: savedToday ? 'var(--accent)' : '#fff'
+            background: savedToday ? 'var(--volt-soft)' : 'var(--volt)',
+            border: savedToday ? '1px solid var(--volt-border)' : 'none',
+            color: savedToday ? 'var(--volt)' : '#000',
+            borderRadius: 'var(--radius)',
           }}
         >
           <CalendarPlus size={14} />
-          {savedToday ? '캘린더에 저장됨!' : '캘린더에 저장'}
+          {savedToday ? 'Saved' : 'Save to Calendar'}
         </button>
 
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={onCopy}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer"
+            className="flex items-center justify-center gap-2 px-3 py-3 text-xs font-medium transition-all cursor-pointer"
             style={{
-              background: isCopied ? 'var(--accent-soft)' : 'var(--bg-card)',
-              border: `1px solid ${isCopied ? 'var(--border-accent)' : 'var(--border)'}`,
-              color: isCopied ? 'var(--accent)' : 'var(--text-secondary)'
+              background: 'transparent',
+              border: `1px solid ${isCopied ? 'var(--volt-border)' : 'var(--border)'}`,
+              color: isCopied ? 'var(--volt)' : 'var(--text-secondary)',
+              borderRadius: 'var(--radius)',
             }}
           >
             {isCopied ? <Check size={12} /> : <Copy size={12} />}
-            {isCopied ? '복사됨!' : '복사'}
+            {isCopied ? 'Copied' : 'Copy'}
           </button>
           <button
             onClick={onShare}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-medium cursor-pointer"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
+            className="flex items-center justify-center gap-2 px-3 py-3 text-xs font-medium cursor-pointer"
+            style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-secondary)', borderRadius: 'var(--radius)' }}
           >
-            <Share2 size={12} />카카오 공유
+            <Share2 size={12} />Share
           </button>
         </div>
 
         <button
           onClick={onReset}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium cursor-pointer transition-colors"
-          style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-xs font-medium cursor-pointer transition-colors uppercase tracking-wider"
+          style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-muted)', borderRadius: 'var(--radius)' }}
         >
-          <RotateCcw size={12} />다시 만들기
+          <RotateCcw size={12} />Reset
         </button>
       </div>
     </div>
@@ -321,29 +331,34 @@ export function ResultSection ({ sectionRef }) {
 
   const { time, level, part } = selection
   const levelLabel = level === 'beginner' ? '초급자' : level === 'intermediate' ? '중급자' : '상급자'
-  const partLabel  = part  === 'upper'    ? '상체'   : part  === 'lower'        ? '하체'   : '전신'
+  const partLabel = part === 'upper' ? '상체' : part === 'lower' ? '하체' : '전신'
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-24"
-      style={{ background: 'var(--bg)' }}
+      className="relative min-h-screen py-32"
+      style={{ background: '#000' }}
     >
       <div className="relative z-10 section-container">
         <motion.div
-          initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mb-12"
         >
-          <span className="text-xs font-semibold tracking-wide" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>
-            오늘의 루틴
+          <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: 'var(--volt)' }}>
+            Your Routine
           </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold mt-1" style={{ fontFamily: 'var(--font-display)' }}>
-            {time}분 · {levelLabel} · {partLabel}
+          <h2
+            className="text-3xl md:text-4xl font-black uppercase tracking-tight mt-3"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            {time}MIN · {levelLabel} · {partLabel}
           </h2>
         </motion.div>
 
         <div className="responsive-grid-2">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             {routine.map((exercise, i) => (
               <WorkoutCard
                 key={exercise.id}
