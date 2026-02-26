@@ -13,6 +13,7 @@ import { useTimerStore } from '@/store/useTimerStore'
 import { ExerciseGuideModal } from '@/components/ui/ExerciseGuideModal'
 import { RestTimer } from '@/components/timer/RestTimer'
 import { DailyMission } from '@/components/mission/DailyMission'
+import { WorkoutCompleteCard } from '@/components/card/WorkoutCompleteCard'
 import { EXERCISE_GUIDE } from '@/constants/exerciseGuide'
 
 function getExerciseImage (name) {
@@ -176,13 +177,11 @@ function WorkoutCard ({ exercise, index, isChecked, onToggle }) {
 }
 
 /** 오른쪽 고정 패널 */
-function StickyPanel ({ selection, routine, checkedIds, isCopied, savedToday, onCopy, onShare, onSave, onReset }) {
+function StickyPanel ({ selection, routine, checkedIds, isCopied, savedToday, allDone, onCopy, onShare, onSave, onReset, onShowCard }) {
   const { time, level, part } = selection
   const levelLabel = level === 'beginner' ? '초급자' : level === 'intermediate' ? '중급자' : '상급자'
   const partLabel  = part  === 'upper'    ? '상체'   : part  === 'lower'        ? '하체'   : '전신'
   const pct = routine.length > 0 ? Math.round((checkedIds.size / routine.length) * 100) : 0
-
-  const allDone = checkedIds.size === routine.length && routine.length > 0
 
   return (
     <div className="flex flex-col gap-4 lg:sticky lg:top-24">
@@ -212,17 +211,38 @@ function StickyPanel ({ selection, routine, checkedIds, isCopied, savedToday, on
         </div>
       </div>
 
-      {/* 완주 배너 */}
+      {/* 완주 배너 + 오운완 카드 버튼 */}
       <AnimatePresence>
         {allDone && (
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.92 }}
-            className="rounded-2xl p-5 text-center"
-            style={{ background: 'rgba(223,255,0,0.08)', border: '1.5px solid var(--volt)' }}
+            className="flex flex-col gap-3"
           >
-            <div className="text-3xl mb-2">🔥</div>
-            <p className="font-black text-base mb-1" style={{ color: 'var(--volt)' }}>오늘 루틴 완주!</p>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>오늘의 기록이 내일의 당신을 만듭니다.</p>
+            <div
+              className="rounded-2xl p-5 text-center"
+              style={{ background: 'rgba(223,255,0,0.08)', border: '1.5px solid var(--volt)' }}
+            >
+              <div className="text-3xl mb-2">🔥</div>
+              <p className="font-black text-base mb-1" style={{ color: 'var(--volt)' }}>오늘 루틴 완주!</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>오늘의 기록이 내일의 당신을 만듭니다.</p>
+            </div>
+
+            {/* 오운완 인증 카드 버튼 */}
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={onShowCard}
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-sm cursor-pointer"
+              style={{
+                background: 'linear-gradient(135deg, #DFFF00 0%, #b8d400 100%)',
+                color: '#000',
+                border: 'none',
+                boxShadow: '0 0 24px rgba(223,255,0,0.35)'
+              }}
+            >
+              <span style={{ fontSize: '1rem' }}>📸</span>
+              오운완 인증 카드 만들기
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -296,6 +316,15 @@ export function ResultSection ({ sectionRef }) {
   const { addRoutineToDate } = useCalendarStore()
   const [checkedIds, setCheckedIds] = useState(new Set())
   const [savedToday, setSavedToday] = useState(false)
+  const [cardOpen, setCardOpen] = useState(false)
+
+  const allDone = routine.length > 0 && checkedIds.size === routine.length
+
+  // 총 세트 수 계산 (예: "3세트 × 10회" → 3)
+  const totalSets = routine.reduce((acc, ex) => {
+    const match = ex.sets?.match(/(\d+)\s*세트/)
+    return acc + (match ? parseInt(match[1]) : 3)
+  }, 0)
 
   const toggleCheck = (id) => {
     setCheckedIds((prev) => {
@@ -365,13 +394,24 @@ export function ResultSection ({ sectionRef }) {
             checkedIds={checkedIds}
             isCopied={isCopied}
             savedToday={savedToday}
+            allDone={allDone}
             onCopy={copyToClipboard}
             onShare={shareKakao}
             onSave={handleSaveToCalendar}
             onReset={reset}
+            onShowCard={() => setCardOpen(true)}
           />
         </div>
       </div>
+
+      {/* 오운완 인증 카드 모달 */}
+      <WorkoutCompleteCard
+        isOpen={cardOpen}
+        onClose={() => setCardOpen(false)}
+        selection={selection}
+        totalSets={totalSets}
+        totalExercises={routine.length}
+      />
     </section>
   )
 }

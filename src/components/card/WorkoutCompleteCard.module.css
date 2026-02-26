@@ -1,0 +1,378 @@
+/* ──────────────────────────────────────────
+   오운완 인증 카드 — 스포츠 잡지 스타일
+   Black & Volt Yellow / 인스타그램 1:1 비율
+────────────────────────────────────────── */
+
+/* 모달 오버레이 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* 카드 외부 래퍼 (버튼 포함) */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── 메인 카드 (캡처 대상) ── */
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #000;
+  border: 3px solid #DFFF00;
+  border-radius: 4px;
+  overflow: hidden;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  box-shadow:
+    0 0 0 1px rgba(223,255,0,0.15),
+    0 0 40px rgba(223,255,0,0.25),
+    0 0 80px rgba(223,255,0,0.1);
+}
+
+/* 배경 그리드 */
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(223,255,0,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(223,255,0,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* 배경 글로우 오브 */
+.bgGlow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(223,255,0,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* 대각선 스트라이프 — 잡지 느낌 */
+.stripe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.stripe::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 140px;
+  height: 140px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 6px,
+    rgba(223,255,0,0.08) 6px,
+    rgba(223,255,0,0.08) 8px
+  );
+}
+
+/* 카드 내부 콘텐츠 */
+.content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 28px 24px;
+}
+
+/* ── 상단: 브랜드 + 날짜 ── */
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: auto;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brandDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #DFFF00;
+  box-shadow: 0 0 10px rgba(223,255,0,0.8);
+  margin-bottom: 4px;
+}
+
+.brandName {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #DFFF00;
+}
+
+.brandSub {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+.dateBlock {
+  text-align: right;
+}
+
+.dateDay {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 2px;
+}
+
+.dateNum {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.dateMonth {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-top: 2px;
+}
+
+/* ── 중앙: 메인 타이틀 ── */
+.centerBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.completedLabel {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(223,255,0,0.6);
+  margin-bottom: 6px;
+}
+
+.mainTitle {
+  font-size: clamp(2.8rem, 10vw, 4.5rem);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  color: #DFFF00;
+  text-shadow:
+    0 0 30px rgba(223,255,0,0.5),
+    0 0 80px rgba(223,255,0,0.2);
+  margin-bottom: 10px;
+}
+
+.partBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1.5px solid rgba(223,255,0,0.4);
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #DFFF00;
+  background: rgba(223,255,0,0.06);
+  width: fit-content;
+}
+
+.partDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #DFFF00;
+  flex-shrink: 0;
+}
+
+/* ── 하단: 스탯 바 ── */
+.statsRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(223,255,0,0.15);
+  margin-top: auto;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.statValueAccent {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #DFFF00;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-shadow: 0 0 20px rgba(223,255,0,0.5);
+}
+
+.statLabel {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+.statDivider {
+  width: 1px;
+  height: 36px;
+  background: rgba(223,255,0,0.15);
+}
+
+/* 하단 워터마크 */
+.watermark {
+  font-size: 0.45rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.15);
+  text-align: right;
+}
+
+/* ── 불꽃 완료 배지 (우상단 코너) ── */
+.fireBadge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(223,255,0,0.1);
+  border: 1.5px solid rgba(223,255,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+/* ── 액션 버튼 영역 ── */
+.actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.downloadBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: #DFFF00;
+  color: #000;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.downloadBtn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 24px rgba(223,255,0,0.4);
+}
+
+.downloadBtn:active {
+  transform: scale(0.97);
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.55);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+/* 다운로드 중 로딩 */
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 공유 힌트 */
+.shareHint {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
