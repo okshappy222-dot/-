@@ -139,7 +139,7 @@ export function ChallengeBoard () {
       {/* 헤더 */}
       <div className="flex items-center gap-2">
         <Trophy size={18} style={{ color: '#FFD700' }} />
-        <h3 className="text-xl font-black" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <h3 className="text-xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
           친구 경쟁 랭킹
         </h3>
       </div>
@@ -152,7 +152,7 @@ export function ChallengeBoard () {
             onClick={() => setActiveTab(tab.id)}
             className="flex-1 py-2 rounded-lg text-xs font-bold cursor-pointer transition-all"
             style={{
-              background: activeTab === tab.id ? 'var(--volt)' : 'transparent',
+              background: activeTab === tab.id ? 'var(--accent)' : 'transparent',
               color: activeTab === tab.id ? '#000' : 'var(--text-secondary)',
               border: 'none'
             }}
@@ -180,20 +180,20 @@ export function ChallengeBoard () {
                 transition={{ delay: i * 0.06 }}
                 className="relative p-4 rounded-2xl"
                 style={{
-                  background: player.isMe ? 'rgba(223,255,0,0.06)' : 'var(--bg-card)',
-                  border: `1.5px solid ${player.isMe ? 'var(--volt)' : 'var(--border)'}`
+                  background: player.isMe ? 'var(--accent-soft)' : 'var(--bg-card)',
+                  border: `1.5px solid ${player.isMe ? 'var(--accent)' : 'var(--border)'}`
                 }}
               >
                 {player.isMe && (
                   <div className="absolute top-2 right-2 text-xs font-bold px-2 py-0.5 rounded-full"
-                    style={{ background: 'var(--volt)', color: '#000' }}>ME</div>
+                    style={{ background: 'var(--accent)', color: '#000' }}>ME</div>
                 )}
 
                 <div className="flex items-center gap-3 mb-3">
                   <RankBadge rank={i + 1} />
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-black text-sm">{player.nickname}</span>
+                      <span className="font-bold text-sm">{player.nickname}</span>
                       {player.goal && <span>{goalEmoji[player.goal]}</span>}
                       {player.level && (
                         <span className="text-xs px-2 py-0.5 rounded-full"
@@ -210,7 +210,7 @@ export function ChallengeBoard () {
                     <button
                       onClick={() => removeRival(player.id)}
                       className="text-xs px-2 py-1 rounded-lg cursor-pointer"
-                      style={{ background: 'rgba(255,100,100,0.1)', border: 'none', color: '#ff6b6b' }}
+                      style={{ background: 'rgba(255,100,100,0.1)', border: 'none', color: 'var(--danger)' }}
                     >
                       삭제
                     </button>
@@ -220,12 +220,12 @@ export function ChallengeBoard () {
                 {/* 스탯 */}
                 <div className="grid grid-cols-3 gap-3 mb-3">
                   {[
-                    { label: '완료 운동', value: player.totalDone, suffix: '개', color: 'var(--volt)' },
-                    { label: '연속 운동', value: player.streak, suffix: '일', color: '#FF6B6B' },
-                    { label: '운동한 날', value: player.totalDays, suffix: '일', color: '#00D4FF' }
+                    { label: '완료 운동', value: player.totalDone, suffix: '개', color: 'var(--accent)' },
+                    { label: '연속 운동', value: player.streak, suffix: '일', color: 'var(--danger)' },
+                    { label: '운동한 날', value: player.totalDays, suffix: '일', color: 'var(--info)' }
                   ].map((stat) => (
                     <div key={stat.label} className="text-center">
-                      <div className="text-lg font-black" style={{ color: stat.color }}>
+                      <div className="text-lg font-bold" style={{ color: stat.color }}>
                         {stat.value}<span className="text-xs">{stat.suffix}</span>
                       </div>
                       <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
@@ -235,8 +235,8 @@ export function ChallengeBoard () {
 
                 {/* 진행 바 */}
                 <div className="flex items-center gap-2">
-                  <StatBar value={player.totalDone} max={maxDone} color={player.isMe ? 'var(--volt)' : 'rgba(255,255,255,0.3)'} />
-                  <span className="text-xs font-bold w-10 text-right" style={{ color: player.isMe ? 'var(--volt)' : 'var(--text-muted)' }}>
+                  <StatBar value={player.totalDone} max={maxDone} color={player.isMe ? 'var(--accent)' : 'rgba(255,255,255,0.3)'} />
+                  <span className="text-xs font-bold w-10 text-right" style={{ color: player.isMe ? 'var(--accent)' : 'var(--text-muted)' }}>
                     {maxDone > 0 ? Math.round((player.totalDone / maxDone) * 100) : 0}%
                   </span>
                 </div>
@@ -261,8 +261,8 @@ export function ChallengeBoard () {
             className="flex flex-col gap-4"
           >
             {/* 내 현황 카드 */}
-            <div className="p-5 rounded-2xl" style={{ background: 'rgba(223,255,0,0.06)', border: '1.5px solid var(--volt)' }}>
-              <div className="text-xs font-semibold mb-3" style={{ color: 'var(--volt)' }}>내 현재 기록</div>
+            <div className="p-5 rounded-2xl" style={{ background: 'var(--accent-soft)', border: '1.5px solid var(--accent)' }}>
+              <div className="text-xs font-semibold mb-3" style={{ color: 'var(--accent)' }}>내 현재 기록</div>
               <div className="grid grid-cols-3 gap-3">
                 {[
                   { label: '완료 운동', value: totalDone, suffix: '개', icon: '💪' },
@@ -271,7 +271,7 @@ export function ChallengeBoard () {
                 ].map((s) => (
                   <div key={s.label} className="text-center">
                     <div className="text-xl">{s.icon}</div>
-                    <div className="text-xl font-black" style={{ color: 'var(--volt)' }}>{s.value}{s.suffix}</div>
+                    <div className="text-xl font-bold" style={{ color: 'var(--accent)' }}>{s.value}{s.suffix}</div>
                     <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</div>
                   </div>
                 ))}
@@ -294,7 +294,7 @@ export function ChallengeBoard () {
                 whileTap={{ scale: 0.98 }}
                 onClick={copyShareLink}
                 className="flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold cursor-pointer"
-                style={{ background: 'var(--volt)', color: '#000', border: 'none' }}
+                style={{ background: 'var(--accent)', color: '#000', border: 'none' }}
               >
                 {isCopied ? <Check size={16} /> : <Copy size={16} />}
                 {isCopied ? '링크 복사됨!' : '공유 링크 복사'}
@@ -338,16 +338,16 @@ export function ChallengeBoard () {
               className="w-full p-4 rounded-xl text-sm resize-none outline-none"
               style={{
                 background: 'var(--bg-3)',
-                border: `1.5px solid ${importError ? '#ff6b6b' : 'var(--border)'}`,
+                border: `1.5px solid ${importError ? 'var(--danger)' : 'var(--border)'}`,
                 color: 'var(--text-primary)',
                 fontFamily: 'inherit'
               }}
-              onFocus={(e) => { e.target.style.borderColor = 'var(--volt)' }}
+              onFocus={(e) => { e.target.style.borderColor = 'var(--accent)' }}
               onBlur={(e) => { if (!importError) e.target.style.borderColor = 'var(--border)' }}
             />
 
             {importError && (
-              <p className="text-xs" style={{ color: '#ff6b6b' }}>{importError}</p>
+              <p className="text-xs" style={{ color: 'var(--danger)' }}>{importError}</p>
             )}
 
             <motion.button
@@ -357,7 +357,7 @@ export function ChallengeBoard () {
               disabled={!importCode.trim()}
               className="py-3.5 rounded-xl font-bold cursor-pointer"
               style={{
-                background: importCode.trim() ? 'var(--volt)' : 'var(--bg-3)',
+                background: importCode.trim() ? 'var(--accent)' : 'var(--bg-3)',
                 color: importCode.trim() ? '#000' : 'var(--text-muted)',
                 border: 'none'
               }}
@@ -366,7 +366,7 @@ export function ChallengeBoard () {
             </motion.button>
 
             <div className="p-4 rounded-xl" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)' }}>
-              <div className="text-xs font-semibold mb-2" style={{ color: 'var(--volt)' }}>💡 사용 방법</div>
+              <div className="text-xs font-semibold mb-2" style={{ color: 'var(--accent)' }}>💡 사용 방법</div>
               <ol className="text-xs flex flex-col gap-1.5" style={{ color: 'var(--text-muted)' }}>
                 <li>1. 내 닉네임을 프로필에서 설정하세요</li>
                 <li>2. "공유하기" 탭에서 링크를 복사해 친구에게 보내세요</li>

@@ -1,23 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --volt: #DFFF00;
-  --volt-dim: #b8d400;
-  --volt-glow: rgba(223, 255, 0, 0.4);
-  --blue-elec: #00D4FF;
-  --bg: #000000;
-  --bg-1: #0a0a0a;
-  --bg-2: #111111;
-  --bg-3: #1a1a1a;
-  --bg-card: #141414;
-  --border: rgba(255,255,255,0.08);
-  --border-volt: rgba(223,255,0,0.3);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255,255,255,0.55);
-  --text-muted: rgba(255,255,255,0.3);
-  --radius: 12px;
-  --radius-lg: 20px;
+  --accent: #a78bfa;
+  --accent-dim: #7c3aed;
+  --accent-soft: rgba(167, 139, 250, 0.12);
+  --accent-glow: rgba(167, 139, 250, 0.2);
+  --info: #60a5fa;
+  --info-soft: rgba(96, 165, 250, 0.12);
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.12);
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.1);
+  --bg: #09090b;
+  --bg-1: #111113;
+  --bg-2: #19191d;
+  --bg-3: #232328;
+  --bg-card: #141417;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(167, 139, 250, 0.25);
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 * {
@@ -33,65 +42,40 @@ html {
 body {
   background: var(--bg);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* 스크롤바 */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg-1); }
-::-webkit-scrollbar-thumb { background: var(--volt-dim); border-radius: 2px; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
 
-/* 네온 글로우 유틸 */
-.glow-volt {
-  text-shadow: 0 0 20px var(--volt-glow), 0 0 60px var(--volt-glow);
-}
-.glow-box-volt {
-  box-shadow: 0 0 20px var(--volt-glow), 0 0 60px rgba(223,255,0,0.15);
-}
-.glow-box-blue {
-  box-shadow: 0 0 20px rgba(0,212,255,0.4), 0 0 60px rgba(0,212,255,0.15);
-}
-
-/* 글라스모피즘 */
 .glass {
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
 }
-.glass-volt {
-  background: rgba(223,255,0,0.05);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-volt);
+.glass-accent {
+  background: var(--accent-soft);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-accent);
 }
 
-/* 그라디언트 텍스트 */
-.text-gradient-volt {
-  background: linear-gradient(135deg, #DFFF00 0%, #b8d400 50%, #00D4FF 100%);
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--info) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* 섹션 스냅 (비활성화 — 자유 스크롤) */
 .snap-section {
   scroll-snap-align: none;
 }
 
-/* 노이즈 텍스처 오버레이 */
-.noise::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 진행률 링 */
 @keyframes ring-fill {
   from { stroke-dashoffset: 283; }
   to { stroke-dashoffset: var(--target-offset); }
@@ -102,41 +86,91 @@ body {
   transform: rotate(-90deg);
 }
 
-/* 타이핑 커서 */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 .typing-cursor {
   display: inline-block;
-  width: 3px;
-  height: 1em;
-  background: var(--volt);
-  margin-left: 4px;
+  width: 2px;
+  height: 0.85em;
+  background: var(--accent);
+  margin-left: 3px;
   animation: blink 1s step-end infinite;
   vertical-align: text-bottom;
 }
 
-/* 펄스 애니메이션 */
-@keyframes pulse-volt {
-  0%, 100% { box-shadow: 0 0 0 0 var(--volt-glow); }
-  50% { box-shadow: 0 0 0 12px transparent; }
+@keyframes pulse-accent {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50% { box-shadow: 0 0 0 10px transparent; }
 }
-.pulse-volt {
-  animation: pulse-volt 2s ease-in-out infinite;
+.pulse-accent {
+  animation: pulse-accent 2.5s ease-in-out infinite;
 }
 
-/* 스크롤 인디케이터 */
-@keyframes bounce-down {
+@keyframes float-down {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
+  50% { transform: translateY(6px); }
 }
-.bounce-down {
-  animation: bounce-down 1.5s ease-in-out infinite;
+.float-down {
+  animation: float-down 2s ease-in-out infinite;
 }
 
-/* 카운터 애니메이션 */
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.section-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 1024px) {
+  .section-container {
+    padding: 0 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-container {
+    padding: 0 16px;
+  }
+}
+
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .responsive-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.responsive-grid-half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .responsive-grid-half {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-label {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(2.2rem, 11vw, 4.5rem) !important;
+  }
 }

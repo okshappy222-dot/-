@@ -9,12 +9,13 @@ import { DashboardSection } from './ui/DashboardSection'
 import { ProfileModal } from './ui/ProfileModal'
 import { useRoutine } from '@/hooks/useRoutine'
 import { useProfileStore } from '@/store/useProfileStore'
-import { User } from 'lucide-react'
+import { User, ArrowRight } from 'lucide-react'
 
 export function MainClient () {
   const { isIdle, isSelecting, isResult, startSelection, goToStep } = useRoutine()
   const { profile, isProfileSet } = useProfileStore()
   const [profileOpen, setProfileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   const heroRef = useRef(null)
   const selectionRef = useRef(null)
@@ -26,6 +27,12 @@ export function MainClient () {
     const top = ref.current.getBoundingClientRect().top + window.scrollY - 72
     window.scrollTo({ top, behavior: 'smooth' })
   }
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     if (isSelecting) scrollTo(selectionRef)
@@ -46,55 +53,68 @@ export function MainClient () {
   }
 
   return (
-      <main style={{ background: 'var(--bg)', width: '100%', overflowX: 'hidden' }}>
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 py-4"
-        style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)' }}>
-        <div className="w-full max-w-screen-xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: 'var(--volt)' }} />
-          <span className="font-black text-sm tracking-widest uppercase" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--volt)' }}>
-            3-SEC ROUTINE
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => scrollTo(dashboardRef)}
-            className="text-xs font-semibold tracking-wider uppercase cursor-pointer"
-            style={{ background: 'none', border: 'none', color: 'var(--text-secondary)' }}
-          >
-            Dashboard
-          </button>
+    <main style={{ background: 'var(--bg)', width: '100%', overflowX: 'hidden' }}>
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          padding: scrolled ? '10px 0' : '14px 0',
+          background: scrolled ? 'rgba(9,9,11,0.85)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent'
+        }}
+      >
+        <div className="w-full max-w-screen-xl mx-auto px-4 md:px-10 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <div
+              className="w-7 h-7 rounded-lg flex items-center justify-center"
+              style={{ background: 'var(--accent-soft)', border: '1px solid var(--border-accent)' }}
+            >
+              <div className="w-2 h-2 rounded-full" style={{ background: 'var(--accent)' }} />
+            </div>
+            <span
+              className="font-extrabold text-sm tracking-tight"
+              style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
+            >
+              3초 루틴
+            </span>
+          </div>
 
-          {/* 프로필 버튼 */}
-          <button
-            onClick={() => setProfileOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-full text-xs font-semibold cursor-pointer transition-all"
-            style={{
-              background: isProfileSet ? 'rgba(223,255,0,0.1)' : 'var(--bg-3)',
-              border: `1px solid ${isProfileSet ? 'var(--border-volt)' : 'var(--border)'}`,
-              color: isProfileSet ? 'var(--volt)' : 'var(--text-secondary)'
-            }}
-          >
-            <User size={13} />
-            {isProfileSet ? (profile.nickname || '프로필') : '프로필 설정'}
-          </button>
+          <div className="flex items-center gap-2 md:gap-3">
+            <button
+              onClick={() => scrollTo(dashboardRef)}
+              className="nav-label text-xs font-medium cursor-pointer transition-colors hover:text-white"
+              style={{ background: 'none', border: 'none', color: 'var(--text-secondary)' }}
+            >
+              대시보드
+            </button>
 
-          <button
-            onClick={handleStart}
-            className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider cursor-pointer"
-            style={{ background: 'var(--volt)', color: '#000', border: 'none' }}
-          >
-            시작하기
-          </button>
-        </div>
+            <button
+              onClick={() => setProfileOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all"
+              style={{
+                background: isProfileSet ? 'var(--accent-soft)' : 'var(--bg-3)',
+                border: `1px solid ${isProfileSet ? 'var(--border-accent)' : 'var(--border)'}`,
+                color: isProfileSet ? 'var(--accent)' : 'var(--text-secondary)'
+              }}
+            >
+              <User size={12} />
+              <span className="hidden sm:inline">{isProfileSet ? (profile.nickname || '프로필') : '프로필'}</span>
+            </button>
+
+            <button
+              onClick={handleStart}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all"
+              style={{ background: 'var(--accent)', color: '#fff', border: 'none' }}
+            >
+              시작하기
+              <ArrowRight size={12} />
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Hero */}
       <HeroSection onStart={handleStart} />
 
-      {/* Selection */}
       <AnimatePresence>
         {(isSelecting || isResult) && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -105,7 +125,6 @@ export function MainClient () {
 
       {isIdle && <div ref={selectionRef} />}
 
-      {/* Result */}
       <AnimatePresence>
         {isResult && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -116,10 +135,8 @@ export function MainClient () {
 
       {!isResult && <div ref={resultRef} />}
 
-      {/* Dashboard */}
       <DashboardSection sectionRef={dashboardRef} onCreateRoutine={handleCreateRoutine} />
 
-      {/* 프로필 모달 */}
       <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
     </main>
   )

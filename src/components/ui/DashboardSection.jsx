@@ -7,7 +7,7 @@ import { StatsBar } from './StatsBar'
 import { GymFinder } from './GymFinder'
 import { ChallengeBoard } from './ChallengeBoard'
 import { MonthlyStats } from './MonthlyStats'
-import { Plus, Zap, MapPin, Trophy, LayoutDashboard, BarChart2 } from 'lucide-react'
+import { Plus, MapPin, Trophy, LayoutDashboard, BarChart2 } from 'lucide-react'
 import { useCalendarStore } from '@/store/useCalendarStore'
 
 const TABS = [
@@ -26,89 +26,74 @@ export function DashboardSection ({ sectionRef, onCreateRoutine }) {
       className="relative min-h-screen py-24"
       style={{ background: 'var(--bg-1)' }}
     >
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 80% 50% at 100% 50%, rgba(0,212,255,0.04) 0%, transparent 60%)' }}
-      />
-
-      <div className="relative z-10" style={{ width: '100%', maxWidth: '1280px', margin: '0 auto', padding: '0 48px' }}>
-        {/* 섹션 헤더 */}
+      <div className="relative z-10 section-container">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex items-center justify-between mb-8"
+          className="flex items-center justify-between mb-8 gap-4"
         >
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Zap size={14} style={{ color: 'var(--volt)' }} />
-              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'var(--volt)' }}>
-                My Dashboard
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-black" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <span className="text-xs font-semibold tracking-wide mb-1 block" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>
+              My Dashboard
+            </span>
+            <h2 className="text-2xl md:text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
               나의 운동 기록
             </h2>
           </div>
 
           <motion.button
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.96 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
             onClick={onCreateRoutine}
-            className="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm cursor-pointer"
-            style={{ background: 'var(--volt)', color: '#000', border: 'none' }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer flex-shrink-0"
+            style={{ background: 'var(--accent)', color: '#fff', border: 'none' }}
           >
-            <Plus size={16} />
-            루틴 생성
+            <Plus size={15} />
+            <span className="hidden sm:inline">루틴 생성</span>
+            <span className="sm:hidden">생성</span>
           </motion.button>
         </motion.div>
 
-        {/* 탭 네비게이션 */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
           {TABS.map(({ id, label, icon: Icon }) => (
-            <motion.button
+            <button
               key={id}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
               onClick={() => setActiveTab(id)}
+              className="flex items-center gap-2 rounded-xl font-semibold text-sm cursor-pointer flex-shrink-0 transition-all duration-200"
               style={{
-                display: 'flex', alignItems: 'center', gap: '8px',
-                padding: '12px 24px', borderRadius: '16px',
-                fontSize: '14px', fontWeight: 700, cursor: 'pointer',
-                background: activeTab === id ? 'var(--volt)' : 'var(--bg-card)',
-                color: activeTab === id ? '#000' : 'var(--text-secondary)',
-                border: `1.5px solid ${activeTab === id ? 'var(--volt)' : 'var(--border)'}`,
-                minWidth: '120px', justifyContent: 'center', flexShrink: 0
+                padding: '9px 18px',
+                background: activeTab === id ? 'var(--accent)' : 'var(--bg-card)',
+                color: activeTab === id ? '#fff' : 'var(--text-secondary)',
+                border: `1px solid ${activeTab === id ? 'var(--accent)' : 'var(--border)'}`,
               }}
             >
-              <Icon size={16} />
+              <Icon size={14} />
               {label}
-            </motion.button>
+            </button>
           ))}
         </div>
 
         <AnimatePresence mode="wait">
-          {/* 대시보드 탭 */}
           {activeTab === 'dashboard' && (
             <motion.div
               key="dashboard"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
             >
-              <div className="mb-8">
+              <div className="mb-6">
                 <StatsBar />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '24px' }}>
-                {/* 캘린더 */}
-                <div className="rounded-2xl p-6"
+              <div className="responsive-grid-2">
+                <div className="rounded-2xl p-4 md:p-6"
                   style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', minWidth: 0 }}>
                   <CalendarWidget />
                 </div>
 
-                {/* 오늘 요약 + 주간 히트맵 */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div className="flex flex-col gap-4">
                   <TodayCard onCreateRoutine={onCreateRoutine} />
                   <WeeklyHeatmap />
                 </div>
@@ -116,14 +101,13 @@ export function DashboardSection ({ sectionRef, onCreateRoutine }) {
             </motion.div>
           )}
 
-          {/* 통계 탭 */}
           {activeTab === 'stats' && (
             <motion.div
               key="stats"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
               className="rounded-2xl p-6 md:p-8"
               style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
             >
@@ -131,14 +115,13 @@ export function DashboardSection ({ sectionRef, onCreateRoutine }) {
             </motion.div>
           )}
 
-          {/* 헬스장 탭 */}
           {activeTab === 'gym' && (
             <motion.div
               key="gym"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
               className="rounded-2xl p-6 md:p-8"
               style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
             >
@@ -146,14 +129,13 @@ export function DashboardSection ({ sectionRef, onCreateRoutine }) {
             </motion.div>
           )}
 
-          {/* 경쟁 탭 */}
           {activeTab === 'challenge' && (
             <motion.div
               key="challenge"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
               className="rounded-2xl p-6 md:p-8"
               style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
             >
@@ -180,25 +162,25 @@ function TodayCard ({ onCreateRoutine }) {
   const dayName = dayNames[today.getDay()]
 
   return (
-    <div className="rounded-2xl p-6 flex flex-col gap-4"
+    <div className="rounded-2xl p-5 flex flex-col gap-4"
       style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: 'var(--text-muted)' }}>TODAY</div>
-          <div className="font-black text-xl">{dayName}</div>
+          <div className="text-xs font-medium mb-1" style={{ color: 'var(--text-muted)' }}>오늘</div>
+          <div className="font-bold text-lg" style={{ fontFamily: 'var(--font-display)' }}>{dayName}</div>
         </div>
         <div className="text-right">
-          <div className="text-4xl font-black" style={{ color: 'var(--volt)' }}>
+          <div className="text-3xl font-bold" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>
             {Math.round(rate * 100)}%
           </div>
           <div className="text-xs" style={{ color: 'var(--text-muted)' }}>완료율</div>
         </div>
       </div>
 
-      <div className="h-2.5 rounded-full" style={{ background: 'var(--bg-3)' }}>
+      <div className="h-2 rounded-full" style={{ background: 'var(--bg-3)' }}>
         <motion.div
           className="h-full rounded-full"
-          style={{ background: 'linear-gradient(90deg, var(--volt), var(--blue-elec))' }}
+          style={{ background: 'linear-gradient(90deg, var(--accent), var(--info))' }}
           initial={{ width: 0 }}
           animate={{ width: `${rate * 100}%` }}
           transition={{ duration: 0.8 }}
@@ -209,8 +191,8 @@ function TodayCard ({ onCreateRoutine }) {
         ? (
           <button
             onClick={onCreateRoutine}
-            className="w-full py-3.5 rounded-xl text-sm font-bold cursor-pointer"
-            style={{ background: 'rgba(223,255,0,0.08)', border: '1.5px dashed rgba(223,255,0,0.3)', color: 'var(--volt)' }}
+            className="w-full py-3 rounded-xl text-sm font-medium cursor-pointer"
+            style={{ background: 'var(--accent-soft)', border: '1px dashed var(--border-accent)', color: 'var(--accent)' }}
           >
             + 오늘 루틴 만들기
           </button>
@@ -238,9 +220,9 @@ function WeeklyHeatmap () {
   const dayNames = ['일', '월', '화', '수', '목', '금', '토']
 
   return (
-    <div className="rounded-2xl p-6"
+    <div className="rounded-2xl p-5"
       style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-      <div className="text-xs font-semibold tracking-widest uppercase mb-5" style={{ color: 'var(--text-muted)' }}>
+      <div className="text-xs font-medium mb-5" style={{ color: 'var(--text-muted)' }}>
         이번 주 활동
       </div>
       <div className="grid grid-cols-7 gap-2">
@@ -248,20 +230,21 @@ function WeeklyHeatmap () {
           <div key={key} className="flex flex-col items-center gap-2">
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{dayNames[date.getDay()]}</div>
             <motion.div
-              className="w-9 h-9 rounded-xl flex items-center justify-center"
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-xs"
               style={{
                 background: !hasLog
                   ? 'var(--bg-3)'
                   : rate === 1
-                    ? 'var(--volt)'
-                    : `rgba(223,255,0,${0.15 + rate * 0.6})`,
-                border: isToday ? '1.5px solid var(--volt)' : '1.5px solid transparent'
+                    ? 'var(--accent)'
+                    : `rgba(167,139,250,${0.1 + rate * 0.5})`,
+                border: isToday ? '1.5px solid var(--accent)' : '1.5px solid transparent',
+                color: rate === 1 && hasLog ? '#fff' : 'transparent'
               }}
-              whileHover={{ scale: 1.15 }}
+              whileHover={{ scale: 1.12 }}
             >
-              {rate === 1 && hasLog && <span style={{ fontSize: 14 }}>✓</span>}
+              {rate === 1 && hasLog && '✓'}
             </motion.div>
-            <div className="text-xs font-bold" style={{ color: isToday ? 'var(--volt)' : 'var(--text-muted)' }}>
+            <div className="text-xs font-medium" style={{ color: isToday ? 'var(--accent)' : 'var(--text-muted)' }}>
               {date.getDate()}
             </div>
           </div>

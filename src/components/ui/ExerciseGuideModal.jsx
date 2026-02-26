@@ -33,12 +33,12 @@ export function ExerciseGuideModal ({ isOpen, onClose, exerciseName }) {
               style={{ borderBottom: '1px solid var(--border)' }}>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <Dumbbell size={13} style={{ color: 'var(--volt)' }} />
-                  <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'var(--volt)' }}>
+                  <Dumbbell size={13} style={{ color: 'var(--accent)' }} />
+                  <span className="text-xs font-semibold tracking-wide" style={{ color: 'var(--accent)' }}>
                     운동 가이드
                   </span>
                 </div>
-                <h2 className="text-xl font-black" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <h2 className="text-xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
                   {exerciseName}
                 </h2>
               </div>
@@ -84,14 +84,14 @@ export function ExerciseGuideModal ({ isOpen, onClose, exerciseName }) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 rounded-xl" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)' }}>
                       <div className="flex items-center gap-2 mb-2">
-                        <Dumbbell size={13} style={{ color: 'var(--volt)' }} />
+                        <Dumbbell size={13} style={{ color: 'var(--accent)' }} />
                         <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>필요 기구</span>
                       </div>
                       <p className="text-sm font-semibold">{guide.equipment}</p>
                     </div>
                     <div className="p-4 rounded-xl" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)' }}>
                       <div className="flex items-center gap-2 mb-2">
-                        <Zap size={13} style={{ color: 'var(--volt)' }} />
+                        <Zap size={13} style={{ color: 'var(--accent)' }} />
                         <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>주요 근육</span>
                       </div>
                       <p className="text-sm font-semibold">{guide.muscles}</p>
@@ -101,8 +101,8 @@ export function ExerciseGuideModal ({ isOpen, onClose, exerciseName }) {
                   {/* 운동 방법 */}
                   <div>
                     <div className="flex items-center gap-2 mb-4">
-                      <CheckCircle2 size={16} style={{ color: 'var(--volt)' }} />
-                      <h3 className="font-black text-base">운동 방법</h3>
+                      <CheckCircle2 size={16} style={{ color: 'var(--accent)' }} />
+                      <h3 className="font-bold text-base">운동 방법</h3>
                     </div>
                     <div className="flex flex-col gap-3">
                       {guide.steps.map((step, i) => (
@@ -114,8 +114,8 @@ export function ExerciseGuideModal ({ isOpen, onClose, exerciseName }) {
                           className="flex items-start gap-3"
                         >
                           <div
-                            className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black"
-                            style={{ background: 'var(--volt)', color: '#000' }}
+                            className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold"
+                            style={{ background: 'var(--accent)', color: '#fff' }}
                           >
                             {i + 1}
                           </div>

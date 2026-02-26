@@ -22,7 +22,7 @@ function InputField ({ label, icon: Icon, value, onChange, type = 'text', placeh
   return (
     <div>
       <label className="flex items-center gap-1.5 text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
-        <Icon size={13} style={{ color: 'var(--volt)' }} />
+        <Icon size={13} style={{ color: 'var(--accent)' }} />
         {label}
       </label>
       <div className="relative flex items-center">
@@ -38,7 +38,7 @@ function InputField ({ label, icon: Icon, value, onChange, type = 'text', placeh
             color: 'var(--text-primary)',
             fontFamily: 'inherit'
           }}
-          onFocus={(e) => { e.target.style.borderColor = 'var(--volt)' }}
+          onFocus={(e) => { e.target.style.borderColor = 'var(--accent)' }}
           onBlur={(e) => { e.target.style.borderColor = 'var(--border)' }}
         />
         {unit && (
@@ -64,7 +64,7 @@ export function ProfileModal ({ isOpen, onClose }) {
     : null
 
   const bmiColor = bmi
-    ? bmi < 18.5 ? '#74b9ff' : bmi < 23 ? '#DFFF00' : bmi < 25 ? '#fdcb6e' : '#ff6b6b'
+    ? bmi < 18.5 ? '#74b9ff' : bmi < 23 ? '#34d399' : bmi < 25 ? '#fdcb6e' : '#ff6b6b'
     : null
 
   const handleSave = () => {
@@ -99,10 +99,10 @@ export function ProfileModal ({ isOpen, onClose }) {
             <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5"
               style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--border)' }}>
               <div>
-                <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: 'var(--volt)' }}>
+                <div className="text-xs font-semibold tracking-wide mb-1" style={{ color: 'var(--accent)' }}>
                   My Profile
                 </div>
-                <h2 className="text-xl font-black" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <h2 className="text-xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
                   신체 정보 입력
                 </h2>
               </div>
@@ -125,7 +125,7 @@ export function ProfileModal ({ isOpen, onClose }) {
               {/* 성별 */}
               <div>
                 <label className="flex items-center gap-1.5 text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
-                  <User size={13} style={{ color: 'var(--volt)' }} />
+                  <User size={13} style={{ color: 'var(--accent)' }} />
                   성별
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -135,9 +135,9 @@ export function ProfileModal ({ isOpen, onClose }) {
                       onClick={() => update('gender')(g.value)}
                       className="py-3 rounded-xl text-sm font-semibold cursor-pointer transition-all"
                       style={{
-                        background: form.gender === g.value ? 'rgba(223,255,0,0.1)' : 'var(--bg-3)',
-                        border: `1.5px solid ${form.gender === g.value ? 'var(--volt)' : 'var(--border)'}`,
-                        color: form.gender === g.value ? 'var(--volt)' : 'var(--text-secondary)'
+                        background: form.gender === g.value ? 'var(--accent-soft)' : 'var(--bg-3)',
+                        border: `1.5px solid ${form.gender === g.value ? 'var(--accent)' : 'var(--border)'}`,
+                        color: form.gender === g.value ? 'var(--accent)' : 'var(--text-secondary)'
                       }}
                     >
                       {g.label}
@@ -165,7 +165,7 @@ export function ProfileModal ({ isOpen, onClose }) {
                 >
                   <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>BMI 지수</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-black" style={{ color: bmiColor }}>{bmi}</span>
+                    <span className="text-2xl font-bold" style={{ color: bmiColor }}>{bmi}</span>
                     <span className="text-xs font-semibold px-2 py-1 rounded-full"
                       style={{ background: `${bmiColor}20`, color: bmiColor }}>
                       {bmiLabel}
@@ -177,7 +177,7 @@ export function ProfileModal ({ isOpen, onClose }) {
               {/* 운동 목표 */}
               <div>
                 <label className="flex items-center gap-1.5 text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
-                  <Target size={13} style={{ color: 'var(--volt)' }} />
+                  <Target size={13} style={{ color: 'var(--accent)' }} />
                   운동 목표
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -187,9 +187,9 @@ export function ProfileModal ({ isOpen, onClose }) {
                       onClick={() => update('goal')(g.value)}
                       className="flex items-center gap-2 px-3 py-3 rounded-xl text-sm font-semibold cursor-pointer text-left transition-all"
                       style={{
-                        background: form.goal === g.value ? 'rgba(223,255,0,0.08)' : 'var(--bg-3)',
-                        border: `1.5px solid ${form.goal === g.value ? 'var(--volt)' : 'var(--border)'}`,
-                        color: form.goal === g.value ? 'var(--volt)' : 'var(--text-secondary)'
+                        background: form.goal === g.value ? 'var(--accent-soft)' : 'var(--bg-3)',
+                        border: `1.5px solid ${form.goal === g.value ? 'var(--accent)' : 'var(--border)'}`,
+                        color: form.goal === g.value ? 'var(--accent)' : 'var(--text-secondary)'
                       }}
                     >
                       <span>{g.emoji}</span>
@@ -202,7 +202,7 @@ export function ProfileModal ({ isOpen, onClose }) {
               {/* 현재 수준 */}
               <div>
                 <label className="flex items-center gap-1.5 text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
-                  <Target size={13} style={{ color: 'var(--volt)' }} />
+                  <Target size={13} style={{ color: 'var(--accent)' }} />
                   현재 운동 수준
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -212,9 +212,9 @@ export function ProfileModal ({ isOpen, onClose }) {
                       onClick={() => update('level')(l.value)}
                       className="flex flex-col items-center gap-1 py-3 rounded-xl text-xs font-semibold cursor-pointer transition-all"
                       style={{
-                        background: form.level === l.value ? 'rgba(223,255,0,0.08)' : 'var(--bg-3)',
-                        border: `1.5px solid ${form.level === l.value ? 'var(--volt)' : 'var(--border)'}`,
-                        color: form.level === l.value ? 'var(--volt)' : 'var(--text-secondary)'
+                        background: form.level === l.value ? 'var(--accent-soft)' : 'var(--bg-3)',
+                        border: `1.5px solid ${form.level === l.value ? 'var(--accent)' : 'var(--border)'}`,
+                        color: form.level === l.value ? 'var(--accent)' : 'var(--text-secondary)'
                       }}
                     >
                       <span className="font-bold">{l.label}</span>
@@ -229,8 +229,8 @@ export function ProfileModal ({ isOpen, onClose }) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSave}
-                className="w-full py-4 rounded-xl font-black text-base cursor-pointer mt-2"
-                style={{ background: 'var(--volt)', color: '#000', border: 'none', fontFamily: 'Montserrat, sans-serif' }}
+                className="w-full py-4 rounded-xl font-bold text-base cursor-pointer mt-2"
+                style={{ background: 'var(--accent)', color: '#fff', border: 'none', fontFamily: 'var(--font-display)' }}
               >
                 저장하기
               </motion.button>

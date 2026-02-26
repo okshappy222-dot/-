@@ -42,7 +42,7 @@ function saveMissionState (state) {
 
 /** Confetti 파티클 생성 */
 function launchConfetti () {
-  const colors = ['#DFFF00', '#ffffff', '#b8d400', '#00D4FF', '#FFD700']
+  const colors = ['#a78bfa', '#ffffff', '#7c3aed', '#60a5fa', '#c4b5fd']
   const count = 80
 
   for (let i = 0; i < count; i++) {
@@ -111,7 +111,7 @@ export function DailyMission () {
       {/* 헤더 */}
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-          <Zap size={13} style={{ color: '#DFFF00' }} />
+          <Zap size={13} style={{ color: 'var(--accent)' }} />
           <p className={styles.label}>오늘의 보너스 미션</p>
         </div>
         <h3 className={styles.title}>Daily Mission</h3>
@@ -193,7 +193,7 @@ export function DailyMission () {
       {/* 이미 완료된 경우 안내 */}
       {isDone && !justCompleted && (
         <p style={{
-          fontSize: '0.72rem', color: 'rgba(223,255,0,0.45)',
+          fontSize: '0.72rem', color: 'rgba(167,139,250,0.5)',
           textAlign: 'center', marginTop: 12, position: 'relative', zIndex: 1
         }}>
           🔥 오늘 미션 완료! 내일 새로운 미션이 기다려요

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { Clock, Zap, Target, ChevronLeft, Dumbbell, Flame, Shield, Trophy, CheckCircle2 } from 'lucide-react'
+import { Clock, Zap, Target, ChevronLeft, Dumbbell, Flame, Shield, CheckCircle2 } from 'lucide-react'
 import { useRoutine } from '@/hooks/useRoutine'
 import { WORKOUT_OPTIONS } from '@/constants/workoutData'
 
@@ -18,7 +18,7 @@ const STEP_META = {
   },
   part: {
     icon: Target,
-    title: '오늘 어디 조지실 건가요?',
+    title: '어디를 집중할까요?',
     sub: '집중적으로 단련할 부위를 선택하세요'
   }
 }
@@ -26,43 +26,42 @@ const STEP_META = {
 const PART_ICONS = { upper: Shield, lower: Dumbbell, full: Flame }
 
 const LEVEL_COLORS = {
-  beginner:     { bg: 'rgba(0,212,255,0.08)',   border: 'rgba(0,212,255,0.3)',   text: '#00D4FF' },
-  intermediate: { bg: 'rgba(223,255,0,0.08)',   border: 'rgba(223,255,0,0.3)',   text: '#DFFF00' },
-  advanced:     { bg: 'rgba(255,100,100,0.08)', border: 'rgba(255,100,100,0.3)', text: '#FF6B6B' }
+  beginner:     { bg: 'var(--info-soft)',    border: 'rgba(96,165,250,0.3)',    text: 'var(--info)' },
+  intermediate: { bg: 'var(--accent-soft)',  border: 'var(--border-accent)',    text: 'var(--accent)' },
+  advanced:     { bg: 'var(--danger-soft)',  border: 'rgba(248,113,113,0.3)',   text: 'var(--danger)' }
 }
 
 const PART_COLORS = {
-  upper: { bg: 'rgba(0,212,255,0.08)',   border: 'rgba(0,212,255,0.3)',   text: '#00D4FF' },
-  lower: { bg: 'rgba(223,255,0,0.08)',   border: 'rgba(223,255,0,0.3)',   text: '#DFFF00' },
-  full:  { bg: 'rgba(255,100,100,0.08)', border: 'rgba(255,100,100,0.3)', text: '#FF6B6B' }
+  upper: { bg: 'var(--info-soft)',   border: 'rgba(96,165,250,0.3)',   text: 'var(--info)' },
+  lower: { bg: 'var(--accent-soft)', border: 'var(--border-accent)',   text: 'var(--accent)' },
+  full:  { bg: 'var(--danger-soft)', border: 'rgba(248,113,113,0.3)', text: 'var(--danger)' }
 }
 
 const slideVariants = {
-  enter:  { opacity: 0, x: 60, scale: 0.96 },
+  enter:  { opacity: 0, x: 40, scale: 0.98 },
   center: { opacity: 1, x: 0,  scale: 1    },
-  exit:   { opacity: 0, x: -60, scale: 0.96 }
+  exit:   { opacity: 0, x: -40, scale: 0.98 }
 }
 
 function StepIndicator ({ currentStep }) {
   const steps = ['time', 'level', 'part']
   const currentIdx = steps.indexOf(currentStep)
   return (
-    <div className="flex items-center gap-3 mb-8">
+    <div className="flex items-center gap-2 mb-8">
       {steps.map((step, i) => (
-        <div key={step} className="flex items-center gap-3">
+        <div key={step} className="flex items-center gap-2">
           <div
-            className="flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold transition-all duration-300"
+            className="flex items-center justify-center w-8 h-8 rounded-lg text-xs font-bold transition-all duration-300"
             style={{
-              background: i <= currentIdx ? 'var(--volt)' : 'var(--bg-3)',
-              color: i <= currentIdx ? '#000' : 'var(--text-muted)',
-              border: i === currentIdx ? '2px solid var(--volt)' : '2px solid transparent'
+              background: i <= currentIdx ? 'var(--accent)' : 'var(--bg-3)',
+              color: i <= currentIdx ? '#fff' : 'var(--text-muted)',
             }}
           >
-            {i + 1}
+            {i < currentIdx ? <CheckCircle2 size={14} /> : i + 1}
           </div>
           {i < steps.length - 1 && (
-            <div className="h-px w-12 transition-all duration-500"
-              style={{ background: i < currentIdx ? 'var(--volt)' : 'var(--border)' }}
+            <div className="h-px w-10 transition-all duration-500"
+              style={{ background: i < currentIdx ? 'var(--accent)' : 'var(--border)' }}
             />
           )}
         </div>
@@ -72,31 +71,25 @@ function StepIndicator ({ currentStep }) {
 }
 
 function OptionCard ({ label, sub, isSelected, onClick, icon: Icon, accentColor }) {
+  const accent = accentColor || { bg: 'var(--accent-soft)', border: 'var(--border-accent)', text: 'var(--accent)' }
   return (
     <motion.button
-      whileHover={{ scale: 1.03, y: -3 }}
-      whileTap={{ scale: 0.97 }}
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className="relative flex flex-col items-center justify-center gap-3 p-6 rounded-2xl cursor-pointer w-full transition-all duration-200"
       style={{
-        background: isSelected ? (accentColor?.bg ?? 'rgba(223,255,0,0.08)') : 'var(--bg-card)',
-        border: `1.5px solid ${isSelected ? (accentColor?.border ?? 'var(--volt)') : 'var(--border)'}`,
+        background: isSelected ? accent.bg : 'var(--bg-card)',
+        border: `1.5px solid ${isSelected ? accent.border : 'var(--border)'}`,
         outline: 'none'
       }}
     >
-      {isSelected && (
-        <motion.div
-          layoutId="selected-glow"
-          className="absolute inset-0 rounded-2xl pointer-events-none"
-          style={{ boxShadow: `0 0 28px ${accentColor?.border ?? 'var(--volt-glow)'}` }}
-        />
-      )}
       {Icon && (
-        <Icon size={30} style={{ color: isSelected ? (accentColor?.text ?? 'var(--volt)') : 'var(--text-secondary)' }} />
+        <Icon size={26} style={{ color: isSelected ? accent.text : 'var(--text-secondary)' }} />
       )}
       <span
-        className="text-lg font-black uppercase tracking-wide"
-        style={{ fontFamily: 'Montserrat, sans-serif', color: isSelected ? (accentColor?.text ?? 'var(--volt)') : 'var(--text-primary)' }}
+        className="text-base font-bold tracking-tight"
+        style={{ fontFamily: 'var(--font-display)', color: isSelected ? accent.text : 'var(--text-primary)' }}
       >
         {label}
       </span>
@@ -105,28 +98,27 @@ function OptionCard ({ label, sub, isSelected, onClick, icon: Icon, accentColor 
   )
 }
 
-/** 오른쪽 패널 — 현재까지 선택한 내용 + 단계별 안내 */
 function RightPanel ({ selection, activeStep }) {
   const steps = [
     {
       key: 'time',
       label: '운동 시간',
       value: selection.time ? `${selection.time}분` : null,
-      icon: '⏱',
+      icon: Clock,
       hint: '30분은 핵심만, 90분은 완전 소진까지!'
     },
     {
       key: 'level',
       label: '난이도',
       value: selection.level === 'beginner' ? '초급자' : selection.level === 'intermediate' ? '중급자' : selection.level === 'advanced' ? '상급자' : null,
-      icon: '⚡',
+      icon: Zap,
       hint: '솔직한 선택이 최고의 루틴을 만들어요'
     },
     {
       key: 'part',
       label: '운동 부위',
       value: selection.part === 'upper' ? '상체' : selection.part === 'lower' ? '하체' : selection.part === 'full' ? '전신' : null,
-      icon: '🎯',
+      icon: Target,
       hint: '전신은 칼로리 소모, 부위별은 근성장에 유리해요'
     }
   ]
@@ -138,65 +130,65 @@ function RightPanel ({ selection, activeStep }) {
   }
 
   return (
-    <div className="flex flex-col gap-5 h-full">
-      {/* 선택 요약 카드 */}
+    <div className="flex flex-col gap-4 h-full">
       <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-        <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--volt)' }}>
+        <p className="text-xs font-semibold tracking-wide mb-4" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>
           선택 요약
         </p>
         <div className="flex flex-col gap-3">
-          {steps.map((s) => (
-            <div key={s.key} className="flex items-center gap-3">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0"
-                style={{
-                  background: s.value ? 'rgba(223,255,0,0.1)' : 'var(--bg-3)',
-                  border: `1px solid ${s.value ? 'var(--border-volt)' : 'var(--border)'}`
-                }}
-              >
-                {s.icon}
+          {steps.map((s) => {
+            const Icon = s.icon
+            return (
+              <div key={s.key} className="flex items-center gap-3">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: s.value ? 'var(--accent-soft)' : 'var(--bg-3)',
+                    border: `1px solid ${s.value ? 'var(--border-accent)' : 'var(--border)'}`
+                  }}
+                >
+                  <Icon size={14} style={{ color: s.value ? 'var(--accent)' : 'var(--text-muted)' }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
+                  <p className="text-sm font-semibold truncate" style={{ color: s.value ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                    {s.value ?? '선택 대기 중...'}
+                  </p>
+                </div>
+                {s.value && (
+                  <CheckCircle2 size={15} style={{ color: 'var(--success)', flexShrink: 0 }} />
+                )}
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
-                <p className="text-sm font-bold truncate" style={{ color: s.value ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                  {s.value ?? '선택 대기 중...'}
-                </p>
-              </div>
-              {s.value && (
-                <CheckCircle2 size={16} style={{ color: 'var(--volt)', flexShrink: 0 }} />
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
-      {/* 현재 단계 팁 */}
-      <div className="rounded-2xl p-5 flex-1" style={{ background: 'rgba(223,255,0,0.03)', border: '1px solid rgba(223,255,0,0.12)' }}>
-        <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--volt)' }}>
-          💡 알고 선택하세요
+      <div className="rounded-2xl p-5 flex-1" style={{ background: 'var(--accent-soft)', border: '1px solid var(--border-accent)' }}>
+        <p className="text-xs font-semibold tracking-wide mb-4" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>
+          알고 선택하세요
         </p>
         <div className="flex flex-col gap-2.5">
           {tips[activeStep].map((tip, i) => (
             <div key={i} className="flex items-start gap-2.5">
-              <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: 'var(--volt)' }} />
+              <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: 'var(--accent)' }} />
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{tip}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* 진행률 */}
       <div className="rounded-2xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>루틴 생성 진행률</p>
-          <p className="text-xs font-bold" style={{ color: 'var(--volt)' }}>
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>진행률</p>
+          <p className="text-xs font-bold" style={{ color: 'var(--accent)' }}>
             {steps.filter((s) => s.value).length} / 3
           </p>
         </div>
         <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-3)' }}>
           <motion.div
             className="h-full rounded-full"
-            style={{ background: 'var(--volt)' }}
+            style={{ background: 'var(--accent)' }}
             animate={{ width: `${(steps.filter((s) => s.value).length / 3) * 100}%` }}
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           />
@@ -219,20 +211,15 @@ export function SelectionSection ({ sectionRef }) {
   return (
     <section
       ref={sectionRef}
-      className="relative flex items-center justify-center min-h-screen px-6 py-24"
+      className="relative flex items-center justify-center min-h-screen py-24"
       style={{ background: 'var(--bg-1)' }}
     >
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(223,255,0,0.04) 0%, transparent 70%)' }}
-      />
-
-      <div className="relative z-10 w-full max-w-5xl">
-        {/* 뒤로가기 */}
+      <div className="relative z-10 section-container">
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={goBack}
-          className="flex items-center gap-2 mb-8 text-sm cursor-pointer"
+          className="flex items-center gap-1.5 mb-8 text-sm cursor-pointer transition-colors"
           style={{ color: 'var(--text-muted)', background: 'none', border: 'none' }}
           whileHover={{ color: 'var(--text-primary)' }}
         >
@@ -240,10 +227,7 @@ export function SelectionSection ({ sectionRef }) {
           뒤로
         </motion.button>
 
-        {/* 2컬럼 레이아웃 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-
-          {/* ── 왼쪽: 선택 패널 ── */}
+        <div className="responsive-grid-half">
           <div>
             <StepIndicator currentStep={activeStep} />
 
@@ -254,19 +238,19 @@ export function SelectionSection ({ sectionRef }) {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 className="mb-8"
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <MetaIcon size={20} style={{ color: 'var(--volt)' }} />
-                  <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'var(--volt)' }}>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <MetaIcon size={18} style={{ color: 'var(--accent)' }} />
+                  <span className="text-xs font-semibold tracking-wide" style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>
                     Step {['time', 'level', 'part'].indexOf(activeStep) + 1} / 3
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <h2 className="text-2xl md:text-3xl font-extrabold mb-2" style={{ fontFamily: 'var(--font-display)' }}>
                   {meta.title}
                 </h2>
-                <p style={{ color: 'var(--text-secondary)' }}>{meta.sub}</p>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{meta.sub}</p>
               </motion.div>
             </AnimatePresence>
 
@@ -277,10 +261,10 @@ export function SelectionSection ({ sectionRef }) {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               >
                 {isTimeStep && (
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-3">
                     {WORKOUT_OPTIONS.time.map((opt) => (
                       <OptionCard
                         key={opt.value}
@@ -295,7 +279,7 @@ export function SelectionSection ({ sectionRef }) {
                 )}
 
                 {isLevelStep && (
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-3">
                     {WORKOUT_OPTIONS.level.map((opt) => (
                       <OptionCard
                         key={opt.value}
@@ -311,7 +295,7 @@ export function SelectionSection ({ sectionRef }) {
                 )}
 
                 {isPartStep && (
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-3">
                     {WORKOUT_OPTIONS.part.map((opt) => (
                       <OptionCard
                         key={opt.value}
@@ -329,11 +313,10 @@ export function SelectionSection ({ sectionRef }) {
             </AnimatePresence>
           </div>
 
-          {/* ── 오른쪽: 요약 패널 ── */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
             <RightPanel selection={selection} activeStep={activeStep} />
           </motion.div>

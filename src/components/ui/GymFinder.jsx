@@ -80,11 +80,11 @@ function GymCard ({ gym, index }) {
       transition={{ delay: index * 0.06 }}
       className="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all"
       style={{ background: 'var(--bg-3)', border: '1px solid var(--border)' }}
-      whileHover={{ borderColor: 'rgba(223,255,0,0.3)', background: 'rgba(223,255,0,0.03)' }}
+      whileHover={{ borderColor: 'var(--border-accent)', background: 'rgba(167,139,250,0.03)' }}
       onClick={() => window.open(`https://map.kakao.com/link/map/${gym.id}`, '_blank')}
     >
-      <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm"
-        style={{ background: 'rgba(223,255,0,0.1)', color: 'var(--volt)' }}>
+      <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm"
+        style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
         {index + 1}
       </div>
       <div className="flex-1 min-w-0">
@@ -97,7 +97,7 @@ function GymCard ({ gym, index }) {
         </p>
         <div className="flex items-center gap-3 mt-2">
           {distance && (
-            <span className="flex items-center gap-1 text-xs" style={{ color: 'var(--volt)' }}>
+            <span className="flex items-center gap-1 text-xs" style={{ color: 'var(--accent)' }}>
               <Navigation size={11} />
               {distance}
             </span>
@@ -160,8 +160,8 @@ export function GymFinder () {
     <div className="flex flex-col gap-5">
       {/* 헤더 */}
       <div className="flex items-center gap-2">
-        <MapPin size={18} style={{ color: 'var(--volt)' }} />
-        <h3 className="text-xl font-black" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <MapPin size={18} style={{ color: 'var(--accent)' }} />
+        <h3 className="text-xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
           내 주변 헬스장
         </h3>
       </div>
@@ -184,7 +184,7 @@ export function GymFinder () {
                 color: 'var(--text-primary)',
                 fontFamily: 'inherit'
               }}
-              onFocus={(e) => { e.target.style.borderColor = 'var(--volt)' }}
+              onFocus={(e) => { e.target.style.borderColor = 'var(--accent)' }}
               onBlur={(e) => { e.target.style.borderColor = 'var(--border)' }}
             />
           </div>
@@ -194,7 +194,7 @@ export function GymFinder () {
             onClick={handleSearch}
             disabled={isSearching}
             className="px-5 py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center gap-2"
-            style={{ background: 'var(--volt)', color: '#000', border: 'none' }}
+            style={{ background: 'var(--accent)', color: '#000', border: 'none' }}
           >
             {isSearching ? <Loader2 size={15} className="animate-spin" /> : <Search size={15} />}
             검색
@@ -207,9 +207,9 @@ export function GymFinder () {
           disabled={locationStatus === 'loading'}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer w-fit"
           style={{
-            background: locationStatus === 'success' ? 'rgba(223,255,0,0.1)' : 'var(--bg-3)',
-            border: `1px solid ${locationStatus === 'success' ? 'var(--volt)' : 'var(--border)'}`,
-            color: locationStatus === 'success' ? 'var(--volt)' : 'var(--text-secondary)'
+            background: locationStatus === 'success' ? 'var(--accent-soft)' : 'var(--bg-3)',
+            border: `1px solid ${locationStatus === 'success' ? 'var(--accent)' : 'var(--border)'}`,
+            color: locationStatus === 'success' ? 'var(--accent)' : 'var(--text-secondary)'
           }}
         >
           {locationStatus === 'loading'
@@ -229,7 +229,7 @@ export function GymFinder () {
             exit={{ opacity: 0 }}
             className="flex items-center justify-center py-10 gap-3"
           >
-            <Loader2 size={20} className="animate-spin" style={{ color: 'var(--volt)' }} />
+            <Loader2 size={20} className="animate-spin" style={{ color: 'var(--accent)' }} />
             <span style={{ color: 'var(--text-secondary)' }}>헬스장 검색 중...</span>
           </motion.div>
         )}
@@ -267,8 +267,8 @@ export function GymFinder () {
             className="flex flex-col items-center justify-center py-12 gap-3"
           >
             <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
-              style={{ background: 'rgba(223,255,0,0.08)', border: '1px solid var(--border-volt)' }}>
-              <MapPin size={28} style={{ color: 'var(--volt)' }} />
+              style={{ background: 'var(--accent-soft)', border: '1px solid var(--border-accent)' }}>
+              <MapPin size={28} style={{ color: 'var(--accent)' }} />
             </div>
             <p className="text-sm text-center" style={{ color: 'var(--text-muted)' }}>
               지역명을 입력하거나 현재 위치를 사용해<br />주변 헬스장을 찾아보세요

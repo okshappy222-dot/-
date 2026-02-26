@@ -50,7 +50,7 @@ export function RestTimer ({ cardId, seconds = 60 }) {
                 >
                   {remainingTime}
                 </motion.span>
-                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'rgba(223,255,0,0.5)', marginBottom: 6 }}>
+                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'rgba(167,139,250,0.5)', marginBottom: 6 }}>
                   초
                 </span>
               </div>

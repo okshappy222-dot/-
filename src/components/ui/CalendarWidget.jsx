@@ -47,34 +47,31 @@ export function CalendarWidget () {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* 캘린더 헤더 */}
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-black" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>
           {viewYear}년 {MONTHS[viewMonth]}
         </h3>
-        <div className="flex gap-2">
-          <button onClick={prevMonth} className="p-2 rounded-xl cursor-pointer"
+        <div className="flex gap-1.5">
+          <button onClick={prevMonth} className="p-2 rounded-lg cursor-pointer transition-colors"
             style={{ background: 'var(--bg-3)', border: 'none', color: 'var(--text-secondary)' }}>
-            <ChevronLeft size={16} />
+            <ChevronLeft size={14} />
           </button>
-          <button onClick={nextMonth} className="p-2 rounded-xl cursor-pointer"
+          <button onClick={nextMonth} className="p-2 rounded-lg cursor-pointer transition-colors"
             style={{ background: 'var(--bg-3)', border: 'none', color: 'var(--text-secondary)' }}>
-            <ChevronRight size={16} />
+            <ChevronRight size={14} />
           </button>
         </div>
       </div>
 
-      {/* 요일 헤더 */}
       <div className="grid grid-cols-7 gap-1">
         {WEEKDAYS.map((d, i) => (
-          <div key={d} className="text-center text-xs font-semibold py-1"
-            style={{ color: i === 0 ? '#ff6b6b' : i === 6 ? '#74b9ff' : 'var(--text-muted)' }}>
+          <div key={d} className="text-center text-xs font-medium py-1"
+            style={{ color: i === 0 ? 'var(--danger)' : i === 6 ? 'var(--info)' : 'var(--text-muted)' }}>
             {d}
           </div>
         ))}
       </div>
 
-      {/* 날짜 그리드 */}
       <div className="grid grid-cols-7 gap-1">
         {cells.map((day, idx) => {
           if (!day) return <div key={`empty-${idx}`} />
@@ -88,59 +85,53 @@ export function CalendarWidget () {
           const hasDiary = !!(diaries?.[key])
           const hasMission = !!(missionDone?.[key])
 
-          // 완료율에 따른 배경색
           const getBg = () => {
-            if (isSelected) return 'var(--volt)'
-            if (isFullDone) return 'rgba(223,255,0,0.25)'
-            if (hasLog && rate > 0.5) return 'rgba(223,255,0,0.12)'
-            if (hasLog) return 'rgba(223,255,0,0.06)'
+            if (isSelected) return 'var(--accent)'
+            if (isFullDone) return 'rgba(167,139,250,0.2)'
+            if (hasLog && rate > 0.5) return 'rgba(167,139,250,0.1)'
+            if (hasLog) return 'rgba(167,139,250,0.05)'
             return 'transparent'
           }
 
           return (
             <motion.button
               key={key}
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedDate(isSelected ? null : key)}
-              className="relative aspect-square flex flex-col items-center justify-center rounded-xl text-sm font-semibold cursor-pointer transition-all duration-200"
+              className="relative aspect-square flex flex-col items-center justify-center rounded-lg text-sm font-medium cursor-pointer transition-all duration-200"
               style={{
                 background: getBg(),
-                color: isSelected ? '#000' : isToday ? 'var(--volt)' : 'var(--text-primary)',
+                color: isSelected ? '#fff' : isToday ? 'var(--accent)' : 'var(--text-primary)',
                 border: isToday && !isSelected
-                  ? '1.5px solid rgba(223,255,0,0.6)'
-                  : isFullDone && !isSelected
-                    ? '1.5px solid rgba(223,255,0,0.5)'
-                    : '1.5px solid transparent',
+                  ? '1.5px solid var(--border-accent)'
+                  : '1.5px solid transparent',
                 outline: 'none'
               }}
             >
-              {/* 완전 완료 시 체크 아이콘 */}
               {isFullDone && !isSelected && (
                 <div className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full flex items-center justify-center"
-                  style={{ background: 'var(--volt)' }}>
-                  <Check size={9} color="#000" strokeWidth={3} />
+                  style={{ background: 'var(--accent)' }}>
+                  <Check size={10} color="#fff" strokeWidth={3} />
+                </div>
+              )}
+
+              {hasMission && !isSelected && (
+                <div className="absolute top-0.5 left-0.5" style={{ fontSize: 11, lineHeight: 1 }}>
+                  ✦
                 </div>
               )}
 
               {day}
 
-              {/* 미션 완료 🔥 배지 */}
-              {hasMission && !isSelected && (
-                <div className="absolute top-0 left-0.5" style={{ fontSize: 10, lineHeight: 1 }}>
-                  🔥
-                </div>
-              )}
-
-              {/* 하단 인디케이터 도트 */}
               {!isSelected && (hasLog || hasDiary) && (
-                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-0.5">
+                <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5">
                   {hasLog && !isFullDone && (
                     <div className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: rate > 0 ? 'rgba(223,255,0,0.8)' : 'rgba(223,255,0,0.35)' }} />
+                      style={{ background: rate > 0 ? 'var(--accent)' : 'rgba(167,139,250,0.3)' }} />
                   )}
                   {hasDiary && (
-                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#00D4FF' }} />
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--info)' }} />
                   )}
                 </div>
               )}
@@ -149,25 +140,19 @@ export function CalendarWidget () {
         })}
       </div>
 
-      {/* 범례 */}
       <div className="flex flex-wrap gap-4 pt-1">
         {[
-          { color: 'var(--volt)', label: '완전 완료' },
-          { color: 'rgba(223,255,0,0.35)', label: '운동 기록' },
-          { color: '#00D4FF', label: '일지 작성' }
+          { color: 'var(--accent)', label: '완전 완료' },
+          { color: 'rgba(167,139,250,0.4)', label: '운동 기록' },
+          { color: 'var(--info)', label: '일지 작성' }
         ].map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: item.color }} />
+            <div className="w-2 h-2 rounded-full" style={{ background: item.color }} />
             <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{item.label}</span>
           </div>
         ))}
-        <div className="flex items-center gap-1.5">
-          <span style={{ fontSize: 12 }}>🔥</span>
-          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>미션 완료</span>
-        </div>
       </div>
 
-      {/* 선택된 날짜 로그 */}
       <AnimatePresence>
         {selectedDate && (
           <motion.div
@@ -178,24 +163,23 @@ export function CalendarWidget () {
           >
             <div className="pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
               <div className="flex items-center justify-between mb-4">
-                <h4 className="font-bold text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <h4 className="font-semibold text-sm" style={{ color: 'var(--text-secondary)' }}>
                   {selectedDate} 기록
                 </h4>
                 <button
                   onClick={() => setDiaryDate(selectedDate)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer"
-                  style={{ background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.3)', color: '#00D4FF' }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer"
+                  style={{ background: 'var(--info-soft)', border: '1px solid rgba(96,165,250,0.25)', color: 'var(--info)' }}
                 >
-                  <PenLine size={12} />
+                  <PenLine size={11} />
                   {diaries?.[selectedDate] ? '일지 수정' : '일지 작성'}
                 </button>
               </div>
 
-              {/* 일지 미리보기 */}
               {diaries?.[selectedDate] && (
                 <div className="mb-4 p-3 rounded-xl flex items-start gap-2"
-                  style={{ background: 'rgba(0,212,255,0.05)', border: '1px solid rgba(0,212,255,0.2)' }}>
-                  <BookOpen size={13} style={{ color: '#00D4FF', flexShrink: 0, marginTop: 1 }} />
+                  style={{ background: 'var(--info-soft)', border: '1px solid rgba(96,165,250,0.2)' }}>
+                  <BookOpen size={12} style={{ color: 'var(--info)', flexShrink: 0, marginTop: 1 }} />
                   <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                     {(() => {
                       try {
@@ -221,41 +205,39 @@ export function CalendarWidget () {
 
                 return (
                   <div key={log.id} className="mb-4 rounded-xl p-4"
-                    style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                    style={{ background: 'var(--bg-3)', border: '1px solid var(--border)' }}>
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <span className="text-sm font-bold">{time}분 · {levelLabel} · {partLabel}</span>
+                        <span className="text-sm font-semibold">{time}분 · {levelLabel} · {partLabel}</span>
                         <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
                           {doneCnt}/{total} 완료
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {doneCnt === total && total > 0 && (
-                          <Flame size={16} style={{ color: 'var(--volt)' }} />
+                          <Flame size={14} style={{ color: 'var(--accent)' }} />
                         )}
                         <button
                           onClick={() => removeLog(selectedDate, log.id)}
                           className="p-1.5 rounded-lg cursor-pointer"
-                          style={{ background: 'rgba(255,100,100,0.1)', border: 'none', color: '#ff6b6b' }}
+                          style={{ background: 'var(--danger-soft)', border: 'none', color: 'var(--danger)' }}
                         >
-                          <Trash2 size={13} />
+                          <Trash2 size={12} />
                         </button>
                       </div>
                     </div>
 
-                    {/* 진행 바 */}
-                    <div className="h-1.5 rounded-full mb-3" style={{ background: 'var(--bg-3)' }}>
+                    <div className="h-1.5 rounded-full mb-3" style={{ background: 'var(--bg-2)' }}>
                       <motion.div
                         className="h-full rounded-full"
-                        style={{ background: 'var(--volt)' }}
+                        style={{ background: 'var(--accent)' }}
                         initial={{ width: 0 }}
                         animate={{ width: `${total === 0 ? 0 : (doneCnt / total) * 100}%` }}
                         transition={{ duration: 0.6 }}
                       />
                     </div>
 
-                    {/* 운동 체크리스트 */}
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-1">
                       {log.exercises.map((ex) => (
                         <button
                           key={ex.id}
@@ -264,13 +246,14 @@ export function CalendarWidget () {
                           style={{ background: 'none', border: 'none' }}
                         >
                           <div
-                            className="flex-shrink-0 w-5 h-5 rounded-md flex items-center justify-center transition-all"
+                            className="flex-shrink-0 w-4.5 h-4.5 rounded-md flex items-center justify-center transition-all"
                             style={{
-                              background: ex.done ? 'var(--volt)' : 'var(--bg-3)',
+                              width: 18, height: 18,
+                              background: ex.done ? 'var(--accent)' : 'var(--bg-2)',
                               border: ex.done ? 'none' : '1.5px solid var(--border)'
                             }}
                           >
-                            {ex.done && <Check size={11} color="#000" strokeWidth={3} />}
+                            {ex.done && <Check size={10} color="#fff" strokeWidth={3} />}
                           </div>
                           <span className="text-xs"
                             style={{
@@ -290,7 +273,6 @@ export function CalendarWidget () {
         )}
       </AnimatePresence>
 
-      {/* 일지 모달 */}
       <DiaryModal
         isOpen={!!diaryDate}
         onClose={() => setDiaryDate(null)}

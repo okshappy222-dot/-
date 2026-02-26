@@ -6,11 +6,11 @@ import { X, BookOpen, Save, Smile, Frown, Meh, Zap, Heart } from 'lucide-react'
 import { useCalendarStore } from '@/store/useCalendarStore'
 
 const MOODS = [
-  { value: 'great', label: '최고', icon: '🔥', color: '#DFFF00' },
-  { value: 'good', label: '좋음', icon: '😊', color: '#00D4FF' },
-  { value: 'normal', label: '보통', icon: '😐', color: '#fdcb6e' },
-  { value: 'tired', label: '피곤', icon: '😓', color: '#a29bfe' },
-  { value: 'bad', label: '별로', icon: '😞', color: '#ff6b6b' }
+  { value: 'great', label: '최고', icon: '🔥', color: 'var(--accent)' },
+  { value: 'good', label: '좋음', icon: '😊', color: 'var(--info)' },
+  { value: 'normal', label: '보통', icon: '😐', color: 'var(--warning)' },
+  { value: 'tired', label: '피곤', icon: '😓', color: '#a78bfa' },
+  { value: 'bad', label: '별로', icon: '😞', color: 'var(--danger)' }
 ]
 
 const PROMPTS = [
@@ -88,12 +88,12 @@ export function DiaryModal ({ isOpen, onClose, date }) {
               style={{ borderBottom: '1px solid var(--border)' }}>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <BookOpen size={14} style={{ color: 'var(--volt)' }} />
-                  <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'var(--volt)' }}>
+                  <BookOpen size={14} style={{ color: 'var(--accent)' }} />
+                  <span className="text-xs font-semibold tracking-wide" style={{ color: 'var(--accent)' }}>
                     운동 일지
                   </span>
                 </div>
-                <h2 className="text-lg font-black">{formatDate(date)}</h2>
+                <h2 className="text-lg font-bold">{formatDate(date)}</h2>
               </div>
               <button onClick={onClose} className="p-2 rounded-xl cursor-pointer"
                 style={{ background: 'var(--bg-3)', border: 'none', color: 'var(--text-secondary)' }}>
@@ -128,8 +128,8 @@ export function DiaryModal ({ isOpen, onClose, date }) {
 
               {/* 작성 프롬프트 */}
               <div className="px-4 py-3 rounded-xl flex items-start gap-2"
-                style={{ background: 'rgba(223,255,0,0.05)', border: '1px solid var(--border-volt)' }}>
-                <Zap size={13} style={{ color: 'var(--volt)', flexShrink: 0, marginTop: 2 }} />
+                style={{ background: 'var(--accent-soft)', border: '1px solid var(--border-accent)' }}>
+                <Zap size={13} style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 2 }} />
                 <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{prompt}</p>
               </div>
 
@@ -150,7 +150,7 @@ export function DiaryModal ({ isOpen, onClose, date }) {
                     color: 'var(--text-primary)',
                     fontFamily: 'inherit'
                   }}
-                  onFocus={(e) => { e.target.style.borderColor = 'var(--volt)' }}
+                  onFocus={(e) => { e.target.style.borderColor = 'var(--accent)' }}
                   onBlur={(e) => { e.target.style.borderColor = 'var(--border)' }}
                 />
                 <div className="text-right mt-1 text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -165,12 +165,12 @@ export function DiaryModal ({ isOpen, onClose, date }) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSave}
-                className="w-full py-4 rounded-xl font-black text-base cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-xl font-bold text-base cursor-pointer flex items-center justify-center gap-2"
                 style={{
-                  background: isSaved ? 'rgba(223,255,0,0.2)' : 'var(--volt)',
-                  color: isSaved ? 'var(--volt)' : '#000',
-                  border: isSaved ? '1.5px solid var(--volt)' : 'none',
-                  fontFamily: 'Montserrat, sans-serif'
+                  background: isSaved ? 'var(--accent-soft)' : 'var(--accent)',
+                  color: isSaved ? 'var(--accent)' : '#fff',
+                  border: isSaved ? '1.5px solid var(--accent)' : 'none',
+                  fontFamily: 'var(--font-display)'
                 }}
               >
                 {isSaved ? '✓ 저장됨!' : <><Save size={16} /> 일지 저장</>}
