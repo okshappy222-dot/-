@@ -1,0 +1,182 @@
+/* DailyMission — 나이키 스타일 Black & Volt Yellow */
+
+.section {
+  position: relative;
+  border-radius: 24px;
+  padding: 28px 28px 24px;
+  background: rgba(223, 255, 0, 0.03);
+  border: 1.5px solid rgba(223, 255, 0, 0.15);
+  overflow: hidden;
+}
+
+.bgGlow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(223,255,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(223, 255, 0, 0.6);
+  margin-bottom: 6px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.missionCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+
+.missionCardDone {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(223, 255, 0, 0.06);
+  border: 1.5px solid rgba(223, 255, 0, 0.3);
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+
+.iconCircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(223, 255, 0, 0.08);
+  border: 1.5px solid rgba(223, 255, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.iconCircleDone {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(223, 255, 0, 0.15);
+  border: 1.5px solid #DFFF00;
+  box-shadow: 0 0 16px rgba(223,255,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.missionText {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+}
+
+.missionTextDone {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #DFFF00;
+  flex: 1;
+  text-decoration: line-through;
+  text-decoration-color: rgba(223, 255, 0, 0.4);
+}
+
+.completeBtn {
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: #DFFF00;
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.completeBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(223,255,0,0.4);
+}
+
+.completeBtn:active {
+  transform: scale(0.97);
+}
+
+.doneBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(223, 255, 0, 0.1);
+  border: 1px solid rgba(223, 255, 0, 0.3);
+  color: #DFFF00;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Confetti 파티클 */
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: translateY(120vh) rotate(720deg) scale(0.3); opacity: 0; }
+}
+
+.confettiParticle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: confettiFall linear forwards;
+}
+
+/* 완료 스탬프 */
+@keyframes stampIn {
+  0%   { transform: scale(2) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(0.9) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: rgba(223, 255, 0, 0.12);
+  border: 2px solid #DFFF00;
+  color: #DFFF00;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  animation: stampIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}

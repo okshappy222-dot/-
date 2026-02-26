@@ -1,0 +1,93 @@
+/* RestTimer — 나이키 스타일 Black & Volt Yellow */
+
+.timerWrap {
+  overflow: hidden;
+  border-radius: 16px;
+  margin-top: 12px;
+}
+
+.timerInner {
+  padding: 16px 20px;
+  background: rgba(223, 255, 0, 0.04);
+  border: 1.5px solid rgba(223, 255, 0, 0.25);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.countdown {
+  font-size: 2.8rem;
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  color: #DFFF00;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-shadow: 0 0 24px rgba(223,255,0,0.4), 0 0 60px rgba(223,255,0,0.2);
+}
+
+@keyframes shakeVolt {
+  0%, 100% { transform: translateX(0) scale(1); }
+  20%       { transform: translateX(-6px) scale(1.08); }
+  40%       { transform: translateX(6px) scale(1.08); }
+  60%       { transform: translateX(-4px) scale(1.05); }
+  80%       { transform: translateX(4px) scale(1.05); }
+}
+
+.countdownDone {
+  font-size: 2.8rem;
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  color: #DFFF00;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-shadow: 0 0 24px rgba(223,255,0,0.4), 0 0 60px rgba(223,255,0,0.2);
+  animation: shakeVolt 0.5s ease-in-out;
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #DFFF00 0%, #b8d400 100%);
+  box-shadow: 0 0 10px rgba(223,255,0,0.4);
+  transition: width 1s linear;
+}
+
+.message {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(223, 255, 0, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.messageDone {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #DFFF00;
+  letter-spacing: 0.04em;
+}
+
+.skipBtn {
+  background: none;
+  border: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.skipBtn:hover {
+  color: rgba(255, 255, 255, 0.55);
+}

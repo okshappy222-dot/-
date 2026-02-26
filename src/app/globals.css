@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --volt: #DFFF00;
+  --volt-dim: #b8d400;
+  --volt-glow: rgba(223, 255, 0, 0.4);
+  --blue-elec: #00D4FF;
+  --bg: #000000;
+  --bg-1: #0a0a0a;
+  --bg-2: #111111;
+  --bg-3: #1a1a1a;
+  --bg-card: #141414;
+  --border: rgba(255,255,255,0.08);
+  --border-volt: rgba(223,255,0,0.3);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.55);
+  --text-muted: rgba(255,255,255,0.3);
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--volt-dim); border-radius: 2px; }
+
+/* 네온 글로우 유틸 */
+.glow-volt {
+  text-shadow: 0 0 20px var(--volt-glow), 0 0 60px var(--volt-glow);
+}
+.glow-box-volt {
+  box-shadow: 0 0 20px var(--volt-glow), 0 0 60px rgba(223,255,0,0.15);
+}
+.glow-box-blue {
+  box-shadow: 0 0 20px rgba(0,212,255,0.4), 0 0 60px rgba(0,212,255,0.15);
+}
+
+/* 글라스모피즘 */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+}
+.glass-volt {
+  background: rgba(223,255,0,0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-volt);
+}
+
+/* 그라디언트 텍스트 */
+.text-gradient-volt {
+  background: linear-gradient(135deg, #DFFF00 0%, #b8d400 50%, #00D4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 섹션 스냅 (비활성화 — 자유 스크롤) */
+.snap-section {
+  scroll-snap-align: none;
+}
+
+/* 노이즈 텍스처 오버레이 */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 진행률 링 */
+@keyframes ring-fill {
+  from { stroke-dashoffset: 283; }
+  to { stroke-dashoffset: var(--target-offset); }
+}
+.progress-ring-circle {
+  animation: ring-fill 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: center;
+  transform: rotate(-90deg);
+}
+
+/* 타이핑 커서 */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: var(--volt);
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+/* 펄스 애니메이션 */
+@keyframes pulse-volt {
+  0%, 100% { box-shadow: 0 0 0 0 var(--volt-glow); }
+  50% { box-shadow: 0 0 0 12px transparent; }
+}
+.pulse-volt {
+  animation: pulse-volt 2s ease-in-out infinite;
+}
+
+/* 스크롤 인디케이터 */
+@keyframes bounce-down {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+.bounce-down {
+  animation: bounce-down 1.5s ease-in-out infinite;
+}
+
+/* 카운터 애니메이션 */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
